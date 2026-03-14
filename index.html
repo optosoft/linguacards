@@ -78,7 +78,8 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
 .quiz-word{font-size:2rem;font-weight:900;margin-bottom:4px}
 .quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .quiz-opt{padding:14px;border-radius:16px;background:#fff;font-size:1rem;font-weight:600;border:2px solid #e0e8ff;transition:all .2s;text-align:center;cursor:pointer}
-.quiz-opt:hover{border-color:var(--c4);background:#f0f4ff}
+.quiz-dir-btn{padding:5px 12px;border-radius:50px;font-size:.8rem;font-weight:700;border:2px solid #e0e8ff;background:#f0f4ff;color:#666;transition:all .2s;white-space:nowrap;cursor:pointer}
+.quiz-dir-btn:hover{background:#e0e8ff}
 .quiz-opt.correct{background:#e8f5e9;border-color:#4CAF50;color:#2e7d32}
 .quiz-opt.wrong{background:#ffebee;border-color:#e53935;color:#c62828}
 /* MODALS */
@@ -254,8 +255,9 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
   <div class="quiz-wrap">
     <div class="section-header">
       <h2>Quiz Mode</h2>
-      <div style="display:flex;align-items:center;gap:6px">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end">
         <div class="card-counter" id="quiz-counter"></div>
+        <button class="quiz-dir-btn" id="quiz-dir-btn" onclick="toggleQuizDir()" title="Switch question direction">🔤 Word → Def</button>
         <button class="audio-toggle on" id="audio-toggle-quiz" onclick="toggleAudio()">🔊 On</button>
         <button class="audio-mode-btn manual" id="audio-mode-quiz" onclick="toggleAutoAudio()">▶ Manual</button>
       </div>
@@ -534,7 +536,30 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
 <script>
 // ─── CONSTANTS ────────────────────────────────────────────────
 var COLORS=['linear-gradient(135deg,#FF6B6B,#FF8E53)','linear-gradient(135deg,#FFD93D,#FF9F43)','linear-gradient(135deg,#6BCB77,#4CAF50)','linear-gradient(135deg,#4D96FF,#667eea)','linear-gradient(135deg,#C77DFF,#9c27b0)','linear-gradient(135deg,#FF6B9D,#c74b50)'];
-var LANG_LOCALES={english:'en-US',british:'en-GB',spanish:'es-ES',mexican:'es-MX',french:'fr-FR',german:'de-DE',italian:'it-IT',portuguese:'pt-PT',brazilian:'pt-BR',japanese:'ja-JP',chinese:'zh-CN',mandarin:'zh-CN',cantonese:'zh-HK',korean:'ko-KR',arabic:'ar-SA',hindi:'hi-IN',russian:'ru-RU',dutch:'nl-NL',turkish:'tr-TR',swedish:'sv-SE',norwegian:'nb-NO',danish:'da-DK',finnish:'fi-FI',polish:'pl-PL',greek:'el-GR',hebrew:'he-IL',thai:'th-TH',vietnamese:'vi-VN',indonesian:'id-ID',malay:'ms-MY',tagalog:'fil-PH',filipino:'fil-PH',czech:'cs-CZ',hungarian:'hu-HU',romanian:'ro-RO',ukrainian:'uk-UA',bengali:'bn-BD',urdu:'ur-PK',persian:'fa-IR',farsi:'fa-IR'};
+var LANG_LOCALES={
+  // English
+  english:'en-US',british:'en-GB',australian:'en-AU',
+  // Romance
+  spanish:'es-ES',mexican:'es-MX',french:'fr-FR',italian:'it-IT',portuguese:'pt-PT',brazilian:'pt-BR',romanian:'ro-RO',catalan:'ca-ES',
+  // Germanic
+  german:'de-DE',dutch:'nl-NL',swedish:'sv-SE',norwegian:'nb-NO',danish:'da-DK',finnish:'fi-FI',
+  // Slavic
+  russian:'ru-RU',polish:'pl-PL',ukrainian:'uk-UA',czech:'cs-CZ',slovak:'sk-SK',hungarian:'hu-HU',
+  // East Asian
+  japanese:'ja-JP',chinese:'zh-CN',mandarin:'zh-CN',cantonese:'zh-HK',korean:'ko-KR',
+  // South Asian
+  hindi:'hi-IN',bengali:'bn-IN',bengali:'bn-BD',tamil:'ta-IN',telugu:'te-IN',kannada:'kn-IN',malayalam:'ml-IN',marathi:'mr-IN',gujarati:'gu-IN',punjabi:'pa-IN',urdu:'ur-PK',sinhala:'si-LK',nepali:'ne-NP',
+  // Southeast Asian
+  thai:'th-TH',vietnamese:'vi-VN',indonesian:'id-ID',malay:'ms-MY',tagalog:'fil-PH',filipino:'fil-PH',burmese:'my-MM',khmer:'km-KH',
+  // Middle Eastern & Central Asian
+  arabic:'ar-SA',hebrew:'he-IL',persian:'fa-IR',farsi:'fa-IR',turkish:'tr-TR',azerbaijani:'az-AZ',kazakh:'kk-KZ',uzbek:'uz-UZ',
+  // African
+  swahili:'sw-KE',amharic:'am-ET',zulu:'zu-ZA',afrikaans:'af-ZA',yoruba:'yo-NG',igbo:'ig-NG',
+  // European (other)
+  greek:'el-GR',basque:'eu-ES',galician:'gl-ES',welsh:'cy-GB',irish:'ga-IE',
+  // Other
+  georgian:'ka-GE',armenian:'hy-AM',mongolian:'mn-MN',tibetan:'bo-CN'
+};
 
 // ─── PHONETIC KB DATA ─────────────────────────────────────────
 var KB_DATA={
@@ -764,7 +789,7 @@ var decks=[],currentDeckId=null,editCardId=null,editDeckId=null;
 var studyCards=[],studyIdx=0,studyCorrect=0,studyFlipped=false;
 var quizCards=[],quizIdx=0,quizCorrect=0;
 var imgDataUrl=null,studyOrder='original';
-var audioEnabled=true,autoAudio=false;
+var audioEnabled=true,autoAudio=false,quizDir='word';
 
 // ─── AUDIO ──────────────────────────────────────────────────
 function toggleAudio(){
@@ -799,8 +824,37 @@ function getOrderedCards(c){
 }
 
 // ─── STORAGE ────────────────────────────────────────────────
-async function saveToCloud(){try{await window.storage.set('lingua_decks3',JSON.stringify(decks));}catch(e){}}
-async function loadFromCloud(){try{var r=await window.storage.get('lingua_decks3');if(r&&r.value)decks=JSON.parse(r.value);}catch(e){decks=[];}}
+// Tries Claude.ai cloud storage first, falls back to localStorage.
+// Either way, decks survive HTML file updates because storage is
+// tied to the session/domain — not the HTML file itself.
+var STORAGE_KEY='lingua_decks3';
+
+function isCloudAvailable(){return typeof window.storage!=='undefined'&&window.storage!==null;}
+
+async function saveToCloud(){
+  var payload=JSON.stringify(decks);
+  if(isCloudAvailable()){
+    try{await window.storage.set(STORAGE_KEY,payload);return;}catch(e){}
+  }
+  try{localStorage.setItem(STORAGE_KEY,payload);}catch(e){console.warn('Storage write failed',e);}
+}
+
+async function loadFromCloud(){
+  // 1. Try Claude cloud storage
+  if(isCloudAvailable()){
+    try{
+      var r=await window.storage.get(STORAGE_KEY);
+      if(r&&r.value){decks=JSON.parse(r.value);return;}
+    }catch(e){}
+  }
+  // 2. Fall back to localStorage
+  try{
+    var raw=localStorage.getItem(STORAGE_KEY);
+    if(raw){decks=JSON.parse(raw);return;}
+  }catch(e){}
+  // 3. Nothing saved yet
+  decks=[];
+}
 
 // ─── VOICE ──────────────────────────────────────────────────
 function langToLocale(lang){
@@ -934,29 +988,60 @@ function speakCurrent(e,side){
   speakText(side==='front'?c.front:c.back,side==='front'?d.wordLang:d.defLang);
 }
 
+function toggleQuizDir(){
+  quizDir=quizDir==='word'?'def':'word';
+  var btn=document.getElementById('quiz-dir-btn');
+  var d=getDeck();
+  if(quizDir==='word'){
+    btn.textContent='🔤 Word → Def';
+    btn.style.background='#f0f4ff';
+    btn.style.color='#666';
+    btn.style.borderColor='#e0e8ff';
+  }else{
+    btn.textContent='📖 Def → Word';
+    btn.style.background='#f0e8ff';
+    btn.style.color='#7b1fa2';
+    btn.style.borderColor='#c77dff';
+  }
+  // Restart quiz from current position with new direction
+  quizIdx=0;quizCorrect=0;
+  quizCards=getOrderedCards(d.cards);
+  renderQuizCard();
+}
+
 // ─── QUIZ ───────────────────────────────────────────────────
 function startQuiz(){
   var d=getDeck();if(d.cards.length<2){toast('Need at least 2 cards!');return;}
-  quizCards=getOrderedCards(d.cards);quizIdx=0;quizCorrect=0;
+  quizCards=getOrderedCards(d.cards);quizIdx=0;quizCorrect=0;quizDir='word';
+  var btn=document.getElementById('quiz-dir-btn');
+  btn.textContent='🔤 Word → Def';
+  btn.style.background='#f0f4ff';btn.style.color='#666';btn.style.borderColor='#e0e8ff';
   showPage('page-quiz');renderQuizCard();
 }
 function renderQuizCard(){
   if(quizIdx>=quizCards.length){showScore(true);return;}
   var c=quizCards[quizIdx],d=getDeck();
+  var askWord=(quizDir==='word');
+  var questionText = askWord ? c.front : c.back;
+  var answerText   = askWord ? c.back  : c.front;
+  var questionLang = askWord ? d.wordLang : d.defLang;
+  var answerLang   = askWord ? d.defLang  : d.wordLang;
   document.getElementById('quiz-counter').textContent=(quizIdx+1)+' / '+quizCards.length;
-  document.getElementById('quiz-front-lang').textContent=d.wordLang;
-  document.getElementById('quiz-word').textContent=c.front;
-  document.getElementById('quiz-back-lang-hint').textContent='Choose the correct '+d.defLang+' translation';
-  autoSpeak(c.front,d.wordLang);
-  var opts=shuffle([c.back].concat(shuffle(d.cards.filter(function(x){return x.id!==c.id;})).slice(0,3).map(function(x){return x.back;})));
+  document.getElementById('quiz-front-lang').textContent=questionLang;
+  document.getElementById('quiz-word').textContent=questionText;
+  document.getElementById('quiz-back-lang-hint').textContent='Choose the correct '+answerLang+' '+(askWord?'translation':'word');
+  autoSpeak(questionText,questionLang);
+  var others=shuffle(d.cards.filter(function(x){return x.id!==c.id;})).slice(0,3).map(function(x){return askWord?x.back:x.front;});
+  var opts=shuffle([answerText].concat(others));
   document.getElementById('quiz-options').innerHTML=opts.map(function(o){
-    return'<button class="quiz-opt" onclick="checkQuiz(this,\''+esc(o)+'\',\''+esc(c.back)+'\')">'+esc(o)+'</button>';
+    return'<button class="quiz-opt" onclick="checkQuiz(this,\''+esc(o)+'\',\''+esc(answerText)+'\',\''+esc(answerLang)+'\')">'+esc(o)+'</button>';
   }).join('');
 }
-function checkQuiz(btn,chosen,correct){
+function checkQuiz(btn,chosen,correct,answerLang){
   document.querySelectorAll('.quiz-opt').forEach(function(b){b.disabled=true;});
   if(chosen===correct){btn.classList.add('correct');quizCorrect++;}
   else{btn.classList.add('wrong');document.querySelectorAll('.quiz-opt').forEach(function(b){if(b.textContent===correct)b.classList.add('correct');});}
+  autoSpeak(correct,answerLang);
   setTimeout(function(){quizIdx++;renderQuizCard();},1300);
 }
 
