@@ -38,13 +38,17 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
 .card-words{flex:1}.card-front{font-weight:700}.card-back{color:#666;font-size:.9rem}
 .card-lang-tag{font-size:.7rem;background:#e8eeff;color:#555;border-radius:50px;padding:1px 7px;font-weight:600;display:inline-block;margin-right:4px}
 .card-actions{display:flex;gap:6px}
-.order-row{margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.order-row{margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .order-toggle{display:flex;border-radius:50px;overflow:hidden;border:2px solid #e0e8ff;background:#f0f4ff}
 .ord-btn{padding:5px 12px;font-size:.78rem;font-weight:700;background:none;color:#888;border:none;white-space:nowrap;cursor:pointer;transition:all .18s}
 .ord-btn.active{background:linear-gradient(135deg,var(--c4),var(--c5));color:#fff}
+/* MASTERY ROW */
+.mastery-row{background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.mastery-bar-track{height:8px;border-radius:50px;background:#eee;overflow:hidden;display:flex}
+.mastery-seg{height:100%;transition:width .4s}
 /* STUDY */
 .study-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;padding:10px}
-.study-top-row{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:500px}
+.study-top-row{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:500px;flex-wrap:wrap;gap:6px}
 .progress-bar-wrap{width:100%;max-width:500px;background:#dde3ff;border-radius:50px;height:10px}
 .progress-bar{height:10px;border-radius:50px;background:linear-gradient(90deg,var(--c3),var(--c4));transition:width .4s}
 .card-counter{font-size:.9rem;color:#666;font-weight:600}
@@ -54,6 +58,8 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
 .audio-mode-btn{padding:5px 12px;border-radius:50px;font-size:.8rem;font-weight:700;border:2px solid #e0e8ff;background:#f0f4ff;color:#666;transition:all .2s;white-space:nowrap}
 .audio-mode-btn.manual{background:#fff3e0;border-color:#FF9F43;color:#e65c00}
 .audio-mode-btn.auto{background:#e8f0ff;border-color:var(--c4);color:#1565c0}
+.dir-btn{padding:5px 12px;border-radius:50px;font-size:.8rem;font-weight:700;border:2px solid #e0e8ff;background:#f0f4ff;color:#666;transition:all .2s;white-space:nowrap;cursor:pointer}
+.dir-btn.alt{background:#f0e8ff;border-color:var(--c5);color:#7b1fa2}
 .flip-card-wrap{width:100%;max-width:420px;height:280px;perspective:1000px;cursor:pointer}
 @media(max-width:480px){.flip-card-wrap{height:240px}}
 .flip-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1)}
@@ -74,14 +80,17 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
 .btn-speak{background:#f0f4ff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;position:absolute;top:12px;right:12px;border:none;cursor:pointer}
 /* QUIZ */
 .quiz-wrap{max-width:520px;margin:0 auto}
+.quiz-setup-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.setup-label{font-size:.78rem;font-weight:700;color:#888;white-space:nowrap}
 .quiz-question{background:#fff;border-radius:20px;padding:24px;text-align:center;margin-bottom:20px;box-shadow:var(--shadow)}
 .quiz-word{font-size:2rem;font-weight:900;margin-bottom:4px}
 .quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .quiz-opt{padding:14px;border-radius:16px;background:#fff;font-size:1rem;font-weight:600;border:2px solid #e0e8ff;transition:all .2s;text-align:center;cursor:pointer}
-.quiz-dir-btn{padding:5px 12px;border-radius:50px;font-size:.8rem;font-weight:700;border:2px solid #e0e8ff;background:#f0f4ff;color:#666;transition:all .2s;white-space:nowrap;cursor:pointer}
-.quiz-dir-btn:hover{background:#e0e8ff}
+.quiz-opt:hover{border-color:var(--c4);background:#f0f4ff}
 .quiz-opt.correct{background:#e8f5e9;border-color:#4CAF50;color:#2e7d32}
 .quiz-opt.wrong{background:#ffebee;border-color:#e53935;color:#c62828}
+.emphasis-badge{font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:50px;background:#fff3e0;color:#e65c00;white-space:nowrap}
+.all-mastered-badge{background:#e8f5e9;color:#2e7d32}
 /* MODALS */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:flex-end;justify-content:center}
 @media(min-width:600px){.modal-overlay{align-items:center}}
@@ -156,7 +165,6 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
 </style>
 </head>
 <body>
-
 <nav>
   <div class="logo">🌍 LinguaCards</div>
   <div style="display:flex;gap:8px">
@@ -191,6 +199,17 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
       <button class="btn btn-primary btn-sm" onclick="startQuiz()">⚡ Quiz</button>
     </div>
   </div>
+  <!-- Mastery row -->
+  <div class="mastery-row" id="mastery-row">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+      <div id="mastery-text" style="font-size:.82rem;font-weight:600;color:#555;line-height:1.8"></div>
+      <button class="btn btn-secondary btn-sm" onclick="confirmResetProgress()" style="white-space:nowrap">↺ Reset Progress</button>
+    </div>
+    <div class="mastery-bar-track">
+      <div class="mastery-seg" id="mb-mastered" style="background:#4CAF50"></div>
+      <div class="mastery-seg" id="mb-learning" style="background:#FF9F43"></div>
+    </div>
+  </div>
   <div class="order-row">
     <span style="font-size:.8rem;font-weight:700;color:#888">ORDER:</span>
     <div class="order-toggle">
@@ -212,7 +231,8 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
   <div class="study-wrap">
     <div class="study-top-row">
       <div class="card-counter" id="study-counter"></div>
-      <div style="display:flex;gap:6px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+        <button class="dir-btn" id="study-dir-btn" onclick="toggleStudyDir()">🔤 Word first</button>
         <button class="audio-toggle on" id="audio-toggle-study" onclick="toggleAudio()">🔊 On</button>
         <button class="audio-mode-btn manual" id="audio-mode-study" onclick="toggleAutoAudio()">▶ Manual</button>
       </div>
@@ -257,10 +277,21 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
       <h2>Quiz Mode</h2>
       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end">
         <div class="card-counter" id="quiz-counter"></div>
-        <button class="quiz-dir-btn" id="quiz-dir-btn" onclick="toggleQuizDir()" title="Switch question direction">🔤 Word → Def</button>
+        <button class="dir-btn" id="quiz-dir-btn" onclick="toggleQuizDir()">🔤 Word → Def</button>
         <button class="audio-toggle on" id="audio-toggle-quiz" onclick="toggleAudio()">🔊 On</button>
         <button class="audio-mode-btn manual" id="audio-mode-quiz" onclick="toggleAutoAudio()">▶ Manual</button>
       </div>
+    </div>
+    <!-- Question count + emphasis badge -->
+    <div class="quiz-setup-row">
+      <span class="setup-label">Questions:</span>
+      <div class="order-toggle" id="ql-toggle">
+        <button class="ord-btn" id="ql-5" onclick="setQuizLimit(5)">5</button>
+        <button class="ord-btn" id="ql-10" onclick="setQuizLimit(10)">10</button>
+        <button class="ord-btn" id="ql-20" onclick="setQuizLimit(20)">20</button>
+        <button class="ord-btn active" id="ql-0" onclick="setQuizLimit(0)">All</button>
+      </div>
+      <div id="quiz-emphasis-badge"></div>
     </div>
     <div class="quiz-question">
       <div class="card-lang-label" id="quiz-front-lang" style="color:#aaa;margin-bottom:4px"></div>
@@ -278,6 +309,7 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
     <div style="font-size:2rem;margin-bottom:8px" id="score-emoji"></div>
     <div class="score-big" id="score-pct"></div>
     <div style="color:#666;margin-top:4px" id="score-detail"></div>
+    <div id="score-mastery" style="margin-top:10px;font-size:.85rem;color:#888"></div>
     <div style="margin-top:24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <button class="btn btn-secondary" onclick="startStudy()">📖 Study Again</button>
       <button class="btn btn-primary" onclick="startQuiz()">⚡ Quiz Again</button>
@@ -374,7 +406,7 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
   <div class="modal" style="max-width:600px">
     <h2>📄 Create Deck from CSV</h2>
     <div id="csv-step1">
-      <p style="color:#666;font-size:.875rem;margin-bottom:14px">Upload a CSV file. The first row should be a header row. Supported columns: front, back, hint (or any names — you will map them below).</p>
+      <p style="color:#666;font-size:.875rem;margin-bottom:14px">Upload a CSV file. The first row should be headers.</p>
       <div class="img-upload-area" id="csv-drop-zone" onclick="document.getElementById('csv-file-input').click()" ondragover="event.preventDefault();this.style.borderColor='var(--c4)'" ondragleave="this.style.borderColor=''" ondrop="handleCSVDrop(event)">
         <div style="font-size:2rem;margin-bottom:6px">📄</div>
         <div style="font-weight:700;color:#555">Tap to choose a CSV file</div>
@@ -382,8 +414,7 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
       </div>
       <input id="csv-file-input" type="file" accept=".csv,text/csv" style="display:none" onchange="handleCSVFile(event)"/>
       <div style="margin-top:12px;background:#f8f0ff;border-radius:12px;padding:12px;font-size:.8rem;color:#666">
-        <strong style="color:#555">Example format:</strong><br/>
-        <code style="font-size:.78rem">front,back,hint<br/>Hello,Hola,informal<br/>Thank you,Gracias,</code>
+        <strong style="color:#555">Example:</strong><br/><code>front,back,hint<br/>Hello,Hola,informal</code>
       </div>
     </div>
     <div id="csv-step2" style="display:none">
@@ -396,13 +427,13 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
           <div class="form-group" style="margin:0"><label style="font-size:.78rem">Front <span style="color:#e53935">*</span></label><select id="csv-col-front" onchange="renderCSVPreview()" style="font-size:.85rem;padding:7px 10px"></select></div>
           <div class="form-group" style="margin:0"><label style="font-size:.78rem">Back <span style="color:#e53935">*</span></label><select id="csv-col-back" onchange="renderCSVPreview()" style="font-size:.85rem;padding:7px 10px"></select></div>
-          <div class="form-group" style="margin:0"><label style="font-size:.78rem">Hint <span style="color:#aaa">(opt.)</span></label><select id="csv-col-hint" onchange="renderCSVPreview()" style="font-size:.85rem;padding:7px 10px"></select></div>
+          <div class="form-group" style="margin:0"><label style="font-size:.78rem">Hint</label><select id="csv-col-hint" onchange="renderCSVPreview()" style="font-size:.85rem;padding:7px 10px"></select></div>
         </div>
       </div>
       <div style="margin-bottom:14px">
         <div style="font-weight:700;font-size:.85rem;color:#555;margin-bottom:8px">Preview <span id="csv-row-count" style="font-weight:400;color:#aaa;font-size:.8rem"></span></div>
         <div style="overflow-x:auto;border-radius:12px;border:2px solid #e0e8ff">
-          <table id="csv-preview-table" style="width:100%;border-collapse:collapse;font-size:.82rem">
+          <table style="width:100%;border-collapse:collapse;font-size:.82rem">
             <thead id="csv-preview-head" style="background:#e8eeff"></thead>
             <tbody id="csv-preview-body"></tbody>
           </table>
@@ -412,9 +443,9 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
         <div style="font-weight:700;font-size:.85rem;color:#555;margin-bottom:10px">Deck Settings</div>
         <div class="form-group" style="margin-bottom:10px"><label>Deck Name</label><input id="csv-deck-name" type="text" placeholder="e.g. Spanish Vocabulary"/></div>
         <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:4px;align-items:start;margin-bottom:10px">
-          <div class="form-group" style="margin:0"><label>Word Language <span style="font-weight:400;color:#999">(front)</span></label><input id="csv-wordlang" type="text" placeholder="e.g. English"/></div>
+          <div class="form-group" style="margin:0"><label>Word Language</label><input id="csv-wordlang" type="text" placeholder="e.g. English"/></div>
           <div class="lang-arrow">→</div>
-          <div class="form-group" style="margin:0"><label>Definition Language <span style="font-weight:400;color:#999">(back)</span></label><input id="csv-deflang" type="text" placeholder="e.g. Spanish"/></div>
+          <div class="form-group" style="margin:0"><label>Definition Language</label><input id="csv-deflang" type="text" placeholder="e.g. Spanish"/></div>
         </div>
         <div class="form-group" style="margin:0"><label>Color</label><div class="color-picker" id="csv-color-picker"></div></div>
       </div>
@@ -441,6 +472,36 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
   </div>
 </div>
 
+<!-- MODAL: EXPORT FALLBACK -->
+<div id="modal-export" class="modal-overlay modal-hidden">
+  <div class="modal" style="max-width:560px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <h2>📤 Export Data</h2>
+      <button onclick="closeModal('modal-export')" style="background:#f0f4ff;border:none;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer;color:#666">✕</button>
+    </div>
+    <p style="color:#666;font-size:.85rem;margin-bottom:12px" id="export-desc"></p>
+    <textarea id="export-textarea" readonly style="width:100%;height:180px;border:2px solid #e0e8ff;border-radius:12px;padding:12px;font-size:.78rem;font-family:monospace;resize:vertical;outline:none;color:#444;background:#f8faff"></textarea>
+    <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="copyExportText()" id="copy-export-btn" style="flex:1">📋 Copy to Clipboard</button>
+      <button class="btn btn-secondary" onclick="tryDownloadExport()" style="flex:1">⬇ Try Download</button>
+    </div>
+    <div style="font-size:.75rem;color:#aaa;margin-top:10px;text-align:center">Paste into a <code>.json</code> file to save, or use Import to restore.</div>
+  </div>
+</div>
+
+<!-- MODAL: CONFIRM -->
+<div id="modal-confirm" class="modal-overlay modal-hidden">
+  <div class="modal" style="max-width:380px;text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:12px" id="confirm-icon">⚠️</div>
+    <h2 style="margin-bottom:8px" id="confirm-title">Are you sure?</h2>
+    <p id="confirm-msg" style="color:#666;font-size:.9rem;margin-bottom:20px;line-height:1.5"></p>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn btn-secondary" onclick="closeModal('modal-confirm')">Cancel</button>
+      <button class="btn btn-danger" id="confirm-ok-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL: HELP -->
 <div id="modal-help" class="modal-overlay modal-hidden">
   <div class="modal" style="max-width:600px">
@@ -450,70 +511,66 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
     </div>
     <div style="display:flex;gap:6px;margin-bottom:18px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px">
       <button class="help-tab active" onclick="switchHelpTab(0)">🏠 Start</button>
-      <button class="help-tab" onclick="switchHelpTab(1)">🃏 Studying</button>
-      <button class="help-tab" onclick="switchHelpTab(2)">➕ Decks</button>
-      <button class="help-tab" onclick="switchHelpTab(3)">⌨️ Keyboard</button>
-      <button class="help-tab" onclick="switchHelpTab(4)">🔊 Audio</button>
-      <button class="help-tab" onclick="switchHelpTab(5)">📤 Import/Export</button>
+      <button class="help-tab" onclick="switchHelpTab(1)">🃏 Study</button>
+      <button class="help-tab" onclick="switchHelpTab(2)">⚡ Quiz</button>
+      <button class="help-tab" onclick="switchHelpTab(3)">➕ Decks</button>
+      <button class="help-tab" onclick="switchHelpTab(4)">⌨️ Keyboard</button>
+      <button class="help-tab" onclick="switchHelpTab(5)">🔊 Audio</button>
     </div>
     <div class="help-panel active" id="help-tab-0">
       <div class="help-section"><div class="help-icon">🌍</div><div><div class="help-title">Welcome to LinguaCards!</div><div class="help-body">Create flashcard decks for any language pair, study with flip cards, test yourself with quizzes, and generate decks instantly with AI.</div></div></div>
       <div class="help-steps">
-        <div class="help-step"><span class="help-num">1</span><div><strong>Create a deck</strong> — tap <em>+ New Deck</em>, set a name, Word Language (front) and Definition Language (back), then pick a colour.</div></div>
-        <div class="help-step"><span class="help-num">2</span><div><strong>Add cards</strong> — open your deck and tap <em>+ Add Card</em>. Fill in front, back, optional hint and optional image.</div></div>
-        <div class="help-step"><span class="help-num">3</span><div><strong>Study or Quiz</strong> — tap 📖 Study to flip through cards, or ⚡ Quiz for multiple-choice testing.</div></div>
-        <div class="help-step"><span class="help-num">4</span><div><strong>Or generate instantly</strong> — tap 🤖 AI Generate, enter a topic and language pair, and a full deck is created in seconds.</div></div>
+        <div class="help-step"><span class="help-num">1</span><div><strong>Create a deck</strong> — tap <em>+ New Deck</em>, set a name and both languages.</div></div>
+        <div class="help-step"><span class="help-num">2</span><div><strong>Add cards</strong> — tap <em>+ Add Card</em>. Each card has a front, back, optional hint, and optional photo.</div></div>
+        <div class="help-step"><span class="help-num">3</span><div><strong>Study or Quiz</strong> — tap 📖 Study to flip through cards, or ⚡ Quiz for multiple-choice.</div></div>
+        <div class="help-step"><span class="help-num">4</span><div><strong>Track progress</strong> — the mastery bar in each deck shows your learning progress. Quiz results update it automatically.</div></div>
       </div>
     </div>
     <div class="help-panel" id="help-tab-1">
-      <div class="help-section"><div class="help-icon">📖</div><div><div class="help-title">Study Mode</div><div class="help-body">Flip through cards one by one. Tap the card or the Flip button to reveal the answer.</div></div></div>
+      <div class="help-section"><div class="help-icon">📖</div><div><div class="help-title">Study Mode</div><div class="help-body">Flip through cards one by one. Use the direction toggle to switch which side appears first.</div></div></div>
       <div class="help-table">
+        <div class="help-row"><span class="help-badge">🔤 Word first</span><span>Shows the word (front), reveals definition on flip</span></div>
+        <div class="help-row"><span class="help-badge">📖 Def first</span><span>Shows the definition (back), reveals word on flip</span></div>
         <div class="help-row"><span class="help-badge">← Prev</span><span>Go back to the previous card</span></div>
-        <div class="help-row"><span class="help-badge">↩ Flip</span><span>Reveal the back of the card</span></div>
-        <div class="help-row"><span class="help-badge">Next →</span><span>Skip to next card without scoring</span></div>
-        <div class="help-row"><span class="help-badge">✓ Got It</span><span>Mark correct and advance</span></div>
-        <div class="help-row"><span class="help-badge">✗ Try Again</span><span>Mark incorrect and advance</span></div>
-        <div class="help-row"><span class="help-badge">🔊</span><span>Speak the word on that card face</span></div>
+        <div class="help-row"><span class="help-badge">↩ Flip</span><span>Reveal the other side</span></div>
+        <div class="help-row"><span class="help-badge">Next →</span><span>Skip without scoring</span></div>
+        <div class="help-row"><span class="help-badge">✓ Got It / ✗ Try Again</span><span>Score and advance</span></div>
       </div>
-      <div class="help-section" style="margin-top:14px"><div class="help-icon">⚡</div><div><div class="help-title">Quiz Mode</div><div class="help-body">Four multiple-choice options are shown per card. Score is shown at the end.</div></div></div>
-      <div class="help-section" style="margin-top:14px"><div class="help-icon">📋</div><div><div class="help-title">Card Order</div><div class="help-body">Choose <strong>Original</strong>, <strong>A–Z</strong>, or <strong>Shuffle</strong> in the deck view before studying.</div></div></div>
     </div>
     <div class="help-panel" id="help-tab-2">
-      <div class="help-section"><div class="help-icon">✏️</div><div><div class="help-title">Manual Deck</div><div class="help-body">Tap <em>+ New Deck</em>, then add cards one by one. Each card supports a front, back, optional hint, and optional photo.</div></div></div>
-      <div class="help-section" style="margin-top:14px"><div class="help-icon">🤖</div><div><div class="help-title">AI Generate</div><div class="help-body">Enter a topic, word language, and definition language. Claude generates a ready-to-study deck instantly. Requires an Anthropic API key when running outside Claude.ai.</div></div></div>
-      <div class="help-section" style="margin-top:14px"><div class="help-icon">📄</div><div><div class="help-title">Import from CSV</div><div class="help-body">Upload a .csv file, map columns to Front / Back / Hint, set the deck name and languages, then tap Create Deck.</div></div></div>
-      <div class="help-tip">💡 <strong>CSV tip:</strong> Name your columns <code>front</code>, <code>back</code>, and <code>hint</code> and they will be auto-detected.</div>
+      <div class="help-section"><div class="help-icon">⚡</div><div><div class="help-title">Quiz Mode</div><div class="help-body">Multiple-choice quiz with smart card weighting — cards you struggle with appear more often.</div></div></div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-badge">🔤 Word→Def</span><span>Shows word, pick the correct definition</span></div>
+        <div class="help-row"><span class="help-badge">📖 Def→Word</span><span>Shows definition, pick the correct word</span></div>
+        <div class="help-row"><span class="help-badge">Questions: 5/10/20/All</span><span>How many cards to quiz per session</span></div>
+        <div class="help-row"><span class="help-badge">⚡ Weak cards</span><span>Cards with low streak are weighted higher</span></div>
+      </div>
+      <div class="help-section" style="margin-top:14px"><div class="help-icon">📊</div><div><div class="help-title">Progress Tracking</div><div class="help-body">Each correct quiz answer increases a card's streak. 3 correct answers in a row = mastered (green). Getting it wrong resets the streak. Use <strong>↺ Reset Progress</strong> in the deck view to start over.</div></div></div>
     </div>
     <div class="help-panel" id="help-tab-3">
-      <div class="help-section"><div class="help-icon">⌨️</div><div><div class="help-title">Phonetic Keyboard</div><div class="help-body">An <em>⌨️ Keyboard</em> button appears on card fields whose language uses a non-Latin script. Every key shows the native character (large) and its Latin phonetic hint (small).</div></div></div>
-      <div class="help-table">
-        <div class="help-row"><span class="help-badge">🇯🇵 Japanese</span><span>Hiragana, Katakana, Rōmaji→かな converter</span></div>
-        <div class="help-row"><span class="help-badge">🇰🇷 Korean</span><span>Hangul with live syllable composition</span></div>
-        <div class="help-row"><span class="help-badge">🇸🇦 Arabic</span><span>Full alphabet + diacritics, RTL layout</span></div>
-        <div class="help-row"><span class="help-badge">🇷🇺 Russian</span><span>Cyrillic upper and lower case</span></div>
-        <div class="help-row"><span class="help-badge">🇬🇷 Greek</span><span>Alphabet with accented vowels</span></div>
-        <div class="help-row"><span class="help-badge">🇮🇳 Hindi</span><span>Devanagari consonants, vowels, matras</span></div>
-        <div class="help-row"><span class="help-badge">🇹🇭 Thai</span><span>Consonants, vowels, tone marks</span></div>
-        <div class="help-row"><span class="help-badge">🇮🇱 Hebrew</span><span>Letters + vowel points, RTL layout</span></div>
-        <div class="help-row"><span class="help-badge">🇨🇳 Chinese</span><span>Pinyin tone marks (ā á ǎ à)</span></div>
-        <div class="help-row"><span class="help-badge">🇺🇦 Ukrainian</span><span>Ukrainian Cyrillic alphabet</span></div>
-      </div>
+      <div class="help-section"><div class="help-icon">✏️</div><div><div class="help-title">Manual Deck</div><div class="help-body">Tap <em>+ New Deck</em>, then add cards one by one.</div></div></div>
+      <div class="help-section" style="margin-top:14px"><div class="help-icon">🤖</div><div><div class="help-title">AI Generate</div><div class="help-body">Enter a topic and language pair. Claude generates a full deck instantly. Requires an API key outside Claude.ai.</div></div></div>
+      <div class="help-section" style="margin-top:14px"><div class="help-icon">📄</div><div><div class="help-title">CSV Import</div><div class="help-body">Upload a .csv file and map columns to Front / Back / Hint.</div></div></div>
+      <div class="help-tip">💡 Name your CSV columns <code>front</code>, <code>back</code>, <code>hint</code> for auto-detection.</div>
     </div>
     <div class="help-panel" id="help-tab-4">
-      <div class="help-section"><div class="help-icon">🔊</div><div><div class="help-title">Text-to-Speech</div><div class="help-body">Each card side is spoken in its own native language accent using your device's built-in speech engine.</div></div></div>
+      <div class="help-section"><div class="help-icon">⌨️</div><div><div class="help-title">Phonetic Keyboard</div><div class="help-body">An ⌨️ button appears next to card fields when the language has a non-Latin script. Every key shows the character plus its phonetic hint.</div></div></div>
       <div class="help-table">
-        <div class="help-row"><span class="help-badge on-badge">🔊 On</span><span>Master switch — enables all audio</span></div>
-        <div class="help-row"><span class="help-badge off-badge">🔇 Off</span><span>Disables all audio including manual taps</span></div>
-        <div class="help-row"><span class="help-badge manual-badge">▶ Manual</span><span>Audio only when you tap the 🔊 button</span></div>
-        <div class="help-row"><span class="help-badge auto-badge">⚡ Auto</span><span>Audio plays automatically on each card and flip</span></div>
+        <div class="help-row"><span class="help-badge">🇯🇵 Japanese</span><span>Hiragana, Katakana, Rōmaji→かな</span></div>
+        <div class="help-row"><span class="help-badge">🇰🇷 Korean</span><span>Hangul with live syllable composition</span></div>
+        <div class="help-row"><span class="help-badge">🇸🇦 Arabic · 🇮🇱 Hebrew</span><span>RTL keyboards with diacritics</span></div>
+        <div class="help-row"><span class="help-badge">🇷🇺 🇬🇷 🇮🇳 🇹🇭 🇨🇳 🇺🇦</span><span>Russian, Greek, Hindi, Thai, Pinyin, Ukrainian</span></div>
       </div>
-      <div class="help-tip">💡 On iPhone / iPad, install language packs in Settings → General → Language &amp; Region for the best voice quality.</div>
     </div>
     <div class="help-panel" id="help-tab-5">
-      <div class="help-section"><div class="help-icon">⬇️</div><div><div class="help-title">Export</div><div class="help-body">Tap 📤 Export inside a deck to save it as JSON, or use Import/Export in the nav to export all decks at once.</div></div></div>
-      <div class="help-section" style="margin-top:14px"><div class="help-icon">⬆️</div><div><div class="help-title">Import</div><div class="help-body">Use Import/Export → Import Decks from File to load a previously exported JSON. Existing decks with matching IDs are updated; new ones are added.</div></div></div>
-      <div class="help-section" style="margin-top:14px"><div class="help-icon">☁️</div><div><div class="help-title">Cloud Save</div><div class="help-body">All decks are automatically saved to cloud storage whenever you make a change. Your data persists across sessions.</div></div></div>
-      <div class="help-tip">💡 Images are stored as base64 inside the JSON, so exported files with many photos can be large.</div>
+      <div class="help-section"><div class="help-icon">🔊</div><div><div class="help-title">Text-to-Speech</div><div class="help-body">Each card side speaks in its own native language accent.</div></div></div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-badge on-badge">🔊 On</span><span>Enables all audio</span></div>
+        <div class="help-row"><span class="help-badge off-badge">🔇 Off</span><span>Disables all audio</span></div>
+        <div class="help-row"><span class="help-badge manual-badge">▶ Manual</span><span>Play only when you tap 🔊</span></div>
+        <div class="help-row"><span class="help-badge auto-badge">⚡ Auto</span><span>Plays automatically on each card</span></div>
+      </div>
+      <div class="help-tip">💡 On iPhone/iPad, install language packs in Settings → General → Language &amp; Region for best quality.</div>
     </div>
     <div class="modal-footer" style="margin-top:8px">
       <button class="btn btn-primary" onclick="closeModal('modal-help')">Got it ✓</button>
@@ -534,34 +591,24 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── CONSTANTS ────────────────────────────────────────────────
+// ─── CONSTANTS ─────────────────────────────────────────────
 var COLORS=['linear-gradient(135deg,#FF6B6B,#FF8E53)','linear-gradient(135deg,#FFD93D,#FF9F43)','linear-gradient(135deg,#6BCB77,#4CAF50)','linear-gradient(135deg,#4D96FF,#667eea)','linear-gradient(135deg,#C77DFF,#9c27b0)','linear-gradient(135deg,#FF6B9D,#c74b50)'];
+
 var LANG_LOCALES={
-  // English
   english:'en-US',british:'en-GB',australian:'en-AU',
-  // Romance
-  spanish:'es-ES',mexican:'es-MX',french:'fr-FR',italian:'it-IT',portuguese:'pt-PT',brazilian:'pt-BR',romanian:'ro-RO',catalan:'ca-ES',
-  // Germanic
+  spanish:'es-ES',mexican:'es-MX',french:'fr-FR',italian:'it-IT',portuguese:'pt-PT',brazilian:'pt-BR',romanian:'ro-RO',
   german:'de-DE',dutch:'nl-NL',swedish:'sv-SE',norwegian:'nb-NO',danish:'da-DK',finnish:'fi-FI',
-  // Slavic
-  russian:'ru-RU',polish:'pl-PL',ukrainian:'uk-UA',czech:'cs-CZ',slovak:'sk-SK',hungarian:'hu-HU',
-  // East Asian
+  russian:'ru-RU',polish:'pl-PL',ukrainian:'uk-UA',czech:'cs-CZ',hungarian:'hu-HU',
   japanese:'ja-JP',chinese:'zh-CN',mandarin:'zh-CN',cantonese:'zh-HK',korean:'ko-KR',
-  // South Asian
-  hindi:'hi-IN',bengali:'bn-IN',bengali:'bn-BD',tamil:'ta-IN',telugu:'te-IN',kannada:'kn-IN',malayalam:'ml-IN',marathi:'mr-IN',gujarati:'gu-IN',punjabi:'pa-IN',urdu:'ur-PK',sinhala:'si-LK',nepali:'ne-NP',
-  // Southeast Asian
-  thai:'th-TH',vietnamese:'vi-VN',indonesian:'id-ID',malay:'ms-MY',tagalog:'fil-PH',filipino:'fil-PH',burmese:'my-MM',khmer:'km-KH',
-  // Middle Eastern & Central Asian
-  arabic:'ar-SA',hebrew:'he-IL',persian:'fa-IR',farsi:'fa-IR',turkish:'tr-TR',azerbaijani:'az-AZ',kazakh:'kk-KZ',uzbek:'uz-UZ',
-  // African
-  swahili:'sw-KE',amharic:'am-ET',zulu:'zu-ZA',afrikaans:'af-ZA',yoruba:'yo-NG',igbo:'ig-NG',
-  // European (other)
-  greek:'el-GR',basque:'eu-ES',galician:'gl-ES',welsh:'cy-GB',irish:'ga-IE',
-  // Other
-  georgian:'ka-GE',armenian:'hy-AM',mongolian:'mn-MN',tibetan:'bo-CN'
+  hindi:'hi-IN',bengali:'bn-IN',tamil:'ta-IN',telugu:'te-IN',kannada:'kn-IN',malayalam:'ml-IN',
+  marathi:'mr-IN',gujarati:'gu-IN',punjabi:'pa-IN',urdu:'ur-PK',nepali:'ne-NP',sinhala:'si-LK',
+  thai:'th-TH',vietnamese:'vi-VN',indonesian:'id-ID',malay:'ms-MY',tagalog:'fil-PH',filipino:'fil-PH',
+  arabic:'ar-SA',hebrew:'he-IL',persian:'fa-IR',farsi:'fa-IR',turkish:'tr-TR',
+  swahili:'sw-KE',amharic:'am-ET',zulu:'zu-ZA',afrikaans:'af-ZA',
+  greek:'el-GR',georgian:'ka-GE',armenian:'hy-AM',mongolian:'mn-MN'
 };
 
-// ─── PHONETIC KB DATA ─────────────────────────────────────────
+// ─── KEYBOARD DATA ─────────────────────────────────────────
 var KB_DATA={
   ja:{tabs:[
     {id:'hira',label:'ひ Hiragana',type:'phonetic',rows:[
@@ -581,9 +628,8 @@ var KB_DATA={
       [{n:'だ',l:'da'},{n:'で',l:'de'},{n:'ど',l:'do'}],
       [{n:'ば',l:'ba'},{n:'び',l:'bi'},{n:'ぶ',l:'bu'},{n:'べ',l:'be'},{n:'ぼ',l:'bo'}],
       [{n:'ぱ',l:'pa'},{n:'ぴ',l:'pi'},{n:'ぷ',l:'pu'},{n:'ぺ',l:'pe'},{n:'ぽ',l:'po'}],
-      [{n:'きゃ',l:'kya'},{n:'きゅ',l:'kyu'},{n:'きょ',l:'kyo'},{n:'しゃ',l:'sha'},{n:'しゅ',l:'shu'},{n:'しょ',l:'sho'}],
-      [{n:'ちゃ',l:'cha'},{n:'ちゅ',l:'chu'},{n:'ちょ',l:'cho'},{n:'にゃ',l:'nya'},{n:'にゅ',l:'nyu'},{n:'にょ',l:'nyo'}],
-      [{n:'。',l:'.'},{n:'、',l:','},{n:'「',l:'«'},{n:'」',l:'»'},{n:'！',l:'!'},{n:'？',l:'?'},{n:'〜',l:'~'}]
+      [{n:'きゃ',l:'kya'},{n:'しゃ',l:'sha'},{n:'ちゃ',l:'cha'},{n:'にゃ',l:'nya'},{n:'ひゃ',l:'hya'}],
+      [{n:'。',l:'.'},{n:'、',l:','},{n:'「',l:'«'},{n:'」',l:'»'},{n:'！',l:'!'},{n:'？',l:'?'}]
     ]},
     {id:'kata',label:'カ Katakana',type:'phonetic',rows:[
       [{n:'ア',l:'a'},{n:'イ',l:'i'},{n:'ウ',l:'u'},{n:'エ',l:'e'},{n:'オ',l:'o'}],
@@ -597,12 +643,8 @@ var KB_DATA={
       [{n:'ラ',l:'ra'},{n:'リ',l:'ri'},{n:'ル',l:'ru'},{n:'レ',l:'re'},{n:'ロ',l:'ro'}],
       [{n:'ワ',l:'wa'},{n:'ヲ',l:'wo'},{n:'ン',l:'n'}],
       [{n:'ッ',l:'(tt)'},{n:'ー',l:'—'},{n:'ャ',l:'ya'},{n:'ュ',l:'yu'},{n:'ョ',l:'yo'}],
-      [{n:'ガ',l:'ga'},{n:'ギ',l:'gi'},{n:'グ',l:'gu'},{n:'ゲ',l:'ge'},{n:'ゴ',l:'go'}],
-      [{n:'ザ',l:'za'},{n:'ジ',l:'ji'},{n:'ズ',l:'zu'},{n:'ゼ',l:'ze'},{n:'ゾ',l:'zo'}],
-      [{n:'ダ',l:'da'},{n:'デ',l:'de'},{n:'ド',l:'do'}],
-      [{n:'バ',l:'ba'},{n:'ビ',l:'bi'},{n:'ブ',l:'bu'},{n:'ベ',l:'be'},{n:'ボ',l:'bo'}],
-      [{n:'パ',l:'pa'},{n:'ピ',l:'pi'},{n:'プ',l:'pu'},{n:'ペ',l:'pe'},{n:'ポ',l:'po'}],
-      [{n:'。',l:'.'},{n:'、',l:','},{n:'「',l:'«'},{n:'」',l:'»'},{n:'！',l:'!'},{n:'？',l:'?'},{n:'〜',l:'~'}]
+      [{n:'ガ',l:'ga'},{n:'ジ',l:'ji'},{n:'ダ',l:'da'},{n:'バ',l:'ba'},{n:'パ',l:'pa'}],
+      [{n:'。',l:'.'},{n:'、',l:','},{n:'「',l:'«'},{n:'」',l:'»'},{n:'！',l:'!'},{n:'？',l:'?'}]
     ]},
     {id:'romaji',label:'Rōmaji→かな',type:'romaji'}
   ]},
@@ -612,42 +654,38 @@ var KB_DATA={
     [{n:'к',l:'k'},{n:'л',l:'l'},{n:'м',l:'m'},{n:'н',l:'n'},{n:'о',l:'o'},{n:'п',l:'p'},{n:'р',l:'r'},{n:'с',l:'s'},{n:'т',l:'t'},{n:'у',l:'u'},{n:'ф',l:'f'}],
     [{n:'х',l:'kh'},{n:'ц',l:'ts'},{n:'ч',l:'ch'},{n:'ш',l:'sh'},{n:'щ',l:'shch'},{n:'ъ',l:'"`'},{n:'ы',l:'y'},{n:'ь',l:"'"},{n:'э',l:'e'},{n:'ю',l:'yu'},{n:'я',l:'ya'}],
     [{n:'А',l:'A'},{n:'Б',l:'B'},{n:'В',l:'V'},{n:'Г',l:'G'},{n:'Д',l:'D'},{n:'Е',l:'YE'},{n:'Ж',l:'ZH'},{n:'З',l:'Z'},{n:'И',l:'I'},{n:'К',l:'K'},{n:'Л',l:'L'}],
-    [{n:'М',l:'M'},{n:'Н',l:'N'},{n:'О',l:'O'},{n:'П',l:'P'},{n:'Р',l:'R'},{n:'С',l:'S'},{n:'Т',l:'T'},{n:'У',l:'U'},{n:'Ф',l:'F'},{n:'Х',l:'KH'},{n:'Ц',l:'TS'}],
-    [{n:'Ч',l:'CH'},{n:'Ш',l:'SH'},{n:'Щ',l:'SCH'},{n:'Ы',l:'Y'},{n:'Э',l:'E'},{n:'Ю',l:'YU'},{n:'Я',l:'YA'}]
+    [{n:'М',l:'M'},{n:'Н',l:'N'},{n:'О',l:'O'},{n:'П',l:'P'},{n:'Р',l:'R'},{n:'С',l:'S'},{n:'Т',l:'T'},{n:'У',l:'U'},{n:'Х',l:'KH'},{n:'Ю',l:'YU'},{n:'Я',l:'YA'}]
   ]}]},
   el:{tabs:[{id:'el',label:'Ω Greek',type:'phonetic',rows:[
     [{n:'α',l:'a'},{n:'β',l:'b'},{n:'γ',l:'g'},{n:'δ',l:'d'},{n:'ε',l:'e'},{n:'ζ',l:'z'},{n:'η',l:'e'},{n:'θ',l:'th'},{n:'ι',l:'i'},{n:'κ',l:'k'},{n:'λ',l:'l'}],
     [{n:'μ',l:'m'},{n:'ν',l:'n'},{n:'ξ',l:'x'},{n:'ο',l:'o'},{n:'π',l:'p'},{n:'ρ',l:'r'},{n:'σ',l:'s'},{n:'ς',l:'s'},{n:'τ',l:'t'},{n:'υ',l:'y'},{n:'φ',l:'f'}],
-    [{n:'χ',l:'ch'},{n:'ψ',l:'ps'},{n:'ω',l:'o'},{n:'ά',l:'a'},{n:'έ',l:'e'},{n:'ή',l:'e'},{n:'ί',l:'i'},{n:'ό',l:'o'},{n:'ύ',l:'y'},{n:'ώ',l:'o'}],
-    [{n:'Α',l:'A'},{n:'Β',l:'B'},{n:'Γ',l:'G'},{n:'Δ',l:'D'},{n:'Ε',l:'E'},{n:'Ζ',l:'Z'},{n:'Η',l:'E'},{n:'Θ',l:'Th'},{n:'Ι',l:'I'},{n:'Κ',l:'K'},{n:'Λ',l:'L'}],
-    [{n:'Μ',l:'M'},{n:'Ν',l:'N'},{n:'Ξ',l:'X'},{n:'Ο',l:'O'},{n:'Π',l:'P'},{n:'Ρ',l:'R'},{n:'Σ',l:'S'},{n:'Τ',l:'T'},{n:'Υ',l:'Y'},{n:'Φ',l:'F'},{n:'Χ',l:'Ch'}],
-    [{n:'Ψ',l:'Ps'},{n:'Ω',l:'O'}]
+    [{n:'χ',l:'ch'},{n:'ψ',l:'ps'},{n:'ω',l:'o'},{n:'ά',l:'a'},{n:'έ',l:'e'},{n:'ί',l:'i'},{n:'ό',l:'o'},{n:'ύ',l:'y'},{n:'ώ',l:'o'}],
+    [{n:'Α',l:'A'},{n:'Β',l:'B'},{n:'Γ',l:'G'},{n:'Δ',l:'D'},{n:'Ε',l:'E'},{n:'Θ',l:'Th'},{n:'Λ',l:'L'},{n:'Ξ',l:'X'},{n:'Π',l:'P'},{n:'Σ',l:'S'},{n:'Ω',l:'O'}]
   ]}]},
   hi:{tabs:[{id:'hi',label:'क Hindi',type:'phonetic',rows:[
-    [{n:'अ',l:'a'},{n:'आ',l:'aa'},{n:'इ',l:'i'},{n:'ई',l:'ii'},{n:'उ',l:'u'},{n:'ऊ',l:'uu'},{n:'ए',l:'e'},{n:'ऐ',l:'ai'},{n:'ओ',l:'o'},{n:'औ',l:'au'},{n:'अं',l:'am'},{n:'अः',l:'ah'}],
+    [{n:'अ',l:'a'},{n:'आ',l:'aa'},{n:'इ',l:'i'},{n:'ई',l:'ii'},{n:'उ',l:'u'},{n:'ऊ',l:'uu'},{n:'ए',l:'e'},{n:'ऐ',l:'ai'},{n:'ओ',l:'o'},{n:'औ',l:'au'}],
     [{n:'क',l:'k'},{n:'ख',l:'kh'},{n:'ग',l:'g'},{n:'घ',l:'gh'},{n:'च',l:'ch'},{n:'छ',l:'chh'},{n:'ज',l:'j'},{n:'झ',l:'jh'},{n:'ट',l:'t'},{n:'ठ',l:'th'},{n:'ड',l:'d'},{n:'ढ',l:'dh'}],
     [{n:'त',l:'t'},{n:'थ',l:'th'},{n:'द',l:'d'},{n:'ध',l:'dh'},{n:'न',l:'n'},{n:'प',l:'p'},{n:'फ',l:'ph'},{n:'ब',l:'b'},{n:'भ',l:'bh'},{n:'म',l:'m'},{n:'य',l:'y'},{n:'र',l:'r'}],
-    [{n:'ल',l:'l'},{n:'व',l:'v'},{n:'श',l:'sh'},{n:'ष',l:'sh'},{n:'स',l:'s'},{n:'ह',l:'h'},{n:'क्ष',l:'ksh'},{n:'त्र',l:'tr'},{n:'ज्ञ',l:'gya'}],
+    [{n:'ल',l:'l'},{n:'व',l:'v'},{n:'श',l:'sh'},{n:'स',l:'s'},{n:'ह',l:'h'},{n:'क्ष',l:'ksh'},{n:'त्र',l:'tr'},{n:'ज्ञ',l:'gya'}],
     [{n:'ा',l:'aa'},{n:'ि',l:'i'},{n:'ी',l:'ii'},{n:'ु',l:'u'},{n:'ू',l:'uu'},{n:'े',l:'e'},{n:'ै',l:'ai'},{n:'ो',l:'o'},{n:'ौ',l:'au'},{n:'्',l:'·'},{n:'ं',l:'m'},{n:'ः',l:'h'}]
   ]}]},
   ar:{rtl:true,tabs:[{id:'ar',label:'ع Arabic',type:'phonetic',rows:[
     [{n:'ا',l:'a'},{n:'ب',l:'b'},{n:'ت',l:'t'},{n:'ث',l:'th'},{n:'ج',l:'j'},{n:'ح',l:'h'},{n:'خ',l:'kh'},{n:'د',l:'d'},{n:'ذ',l:'dh'},{n:'ر',l:'r'}],
-    [{n:'ز',l:'z'},{n:'س',l:'s'},{n:'ش',l:'sh'},{n:'ص',l:'s'},{n:'ض',l:'d'},{n:'ط',l:'t'},{n:'ظ',l:'z'},{n:'ع',l:'a'},{n:'غ',l:'gh'},{n:'ف',l:'f'}],
-    [{n:'ق',l:'q'},{n:'ك',l:'k'},{n:'ل',l:'l'},{n:'م',l:'m'},{n:'ن',l:'n'},{n:'ه',l:'h'},{n:'و',l:'w'},{n:'ي',l:'y'},{n:'ة',l:'h'},{n:'ى',l:'a'},{n:'لا',l:'la'}],
-    [{n:'أ',l:'a'},{n:'إ',l:'i'},{n:'آ',l:'aa'},{n:'ؤ',l:'u'},{n:'ئ',l:'y'},{n:'ء',l:"'"}],
-    [{n:'َ',l:'a'},{n:'ُ',l:'u'},{n:'ِ',l:'i'},{n:'ّ',l:'x2'},{n:'ْ',l:'0'}]
+    [{n:'ز',l:'z'},{n:'س',l:'s'},{n:'ش',l:'sh'},{n:'ص',l:'s'},{n:'ض',l:'d'},{n:'ط',l:'t'},{n:'ع',l:'a'},{n:'غ',l:'gh'},{n:'ف',l:'f'},{n:'ق',l:'q'}],
+    [{n:'ك',l:'k'},{n:'ل',l:'l'},{n:'م',l:'m'},{n:'ن',l:'n'},{n:'ه',l:'h'},{n:'و',l:'w'},{n:'ي',l:'y'},{n:'ة',l:'h'},{n:'ى',l:'a'},{n:'لا',l:'la'}],
+    [{n:'أ',l:'a'},{n:'إ',l:'i'},{n:'آ',l:'aa'},{n:'ء',l:"'"},{n:'َ',l:'a'},{n:'ُ',l:'u'},{n:'ِ',l:'i'},{n:'ّ',l:'x2'},{n:'ْ',l:'0'}]
   ]}]},
   th:{tabs:[{id:'th',label:'ก Thai',type:'phonetic',rows:[
-    [{n:'ก',l:'k'},{n:'ข',l:'kh'},{n:'ค',l:'kh'},{n:'ง',l:'ng'},{n:'จ',l:'j'},{n:'ช',l:'ch'},{n:'ซ',l:'s'},{n:'ญ',l:'y'},{n:'ด',l:'d'},{n:'ต',l:'t'},{n:'ถ',l:'th'},{n:'ท',l:'th'}],
-    [{n:'น',l:'n'},{n:'บ',l:'b'},{n:'ป',l:'p'},{n:'ผ',l:'ph'},{n:'พ',l:'ph'},{n:'ฟ',l:'f'},{n:'ม',l:'m'},{n:'ย',l:'y'},{n:'ร',l:'r'},{n:'ล',l:'l'},{n:'ว',l:'w'},{n:'ส',l:'s'}],
-    [{n:'ห',l:'h'},{n:'อ',l:'o'},{n:'ฮ',l:'h'},{n:'า',l:'aa'},{n:'ิ',l:'i'},{n:'ี',l:'ii'},{n:'ึ',l:'eu'},{n:'ุ',l:'u'},{n:'ู',l:'uu'},{n:'เ',l:'e'},{n:'แ',l:'ae'},{n:'โ',l:'o'}],
-    [{n:'ใ',l:'ai'},{n:'ไ',l:'ai'},{n:'่',l:'low'},{n:'้',l:'fall'},{n:'๊',l:'hi'},{n:'๋',l:'rise'},{n:'็',l:'short'},{n:'์',l:'silent'},{n:'ำ',l:'am'},{n:'ๆ',l:'x2'}]
+    [{n:'ก',l:'k'},{n:'ข',l:'kh'},{n:'ค',l:'kh'},{n:'ง',l:'ng'},{n:'จ',l:'j'},{n:'ช',l:'ch'},{n:'ซ',l:'s'},{n:'ด',l:'d'},{n:'ต',l:'t'},{n:'ถ',l:'th'},{n:'ท',l:'th'},{n:'น',l:'n'}],
+    [{n:'บ',l:'b'},{n:'ป',l:'p'},{n:'ผ',l:'ph'},{n:'พ',l:'ph'},{n:'ฟ',l:'f'},{n:'ม',l:'m'},{n:'ย',l:'y'},{n:'ร',l:'r'},{n:'ล',l:'l'},{n:'ว',l:'w'},{n:'ส',l:'s'},{n:'ห',l:'h'}],
+    [{n:'า',l:'aa'},{n:'ิ',l:'i'},{n:'ี',l:'ii'},{n:'ุ',l:'u'},{n:'ู',l:'uu'},{n:'เ',l:'e'},{n:'แ',l:'ae'},{n:'โ',l:'o'},{n:'ใ',l:'ai'},{n:'ไ',l:'ai'},{n:'ำ',l:'am'}],
+    [{n:'่',l:'low'},{n:'้',l:'fall'},{n:'๊',l:'hi'},{n:'๋',l:'rise'},{n:'็',l:'short'},{n:'์',l:'silent'},{n:'ๆ',l:'x2'}]
   ]}]},
   he:{rtl:true,tabs:[{id:'he',label:'א Hebrew',type:'phonetic',rows:[
     [{n:'א',l:"'"},{n:'ב',l:'b'},{n:'ג',l:'g'},{n:'ד',l:'d'},{n:'ה',l:'h'},{n:'ו',l:'v'},{n:'ז',l:'z'},{n:'ח',l:'ch'},{n:'ט',l:'t'},{n:'י',l:'y'}],
     [{n:'כ',l:'k'},{n:'ל',l:'l'},{n:'מ',l:'m'},{n:'נ',l:'n'},{n:'ס',l:'s'},{n:'ע',l:'a'},{n:'פ',l:'p'},{n:'צ',l:'ts'},{n:'ק',l:'q'},{n:'ר',l:'r'}],
     [{n:'ש',l:'sh'},{n:'ת',l:'t'},{n:'ך',l:'k'},{n:'ם',l:'m'},{n:'ן',l:'n'},{n:'ף',l:'p'},{n:'ץ',l:'ts'}],
-    [{n:'ִ',l:'i'},{n:'ֵ',l:'e'},{n:'ֶ',l:'e'},{n:'ַ',l:'a'},{n:'ָ',l:'a'},{n:'ֹ',l:'o'},{n:'ֻ',l:'u'},{n:'ּ',l:'x2'}]
+    [{n:'ִ',l:'i'},{n:'ֵ',l:'e'},{n:'ַ',l:'a'},{n:'ָ',l:'a'},{n:'ֹ',l:'o'},{n:'ֻ',l:'u'}]
   ]}]},
   zh:{tabs:[{id:'zh',label:'拼 Pinyin',type:'phonetic',rows:[
     [{n:'ā',l:'a1'},{n:'á',l:'a2'},{n:'ǎ',l:'a3'},{n:'à',l:'a4'}],
@@ -655,8 +693,7 @@ var KB_DATA={
     [{n:'ī',l:'i1'},{n:'í',l:'i2'},{n:'ǐ',l:'i3'},{n:'ì',l:'i4'}],
     [{n:'ō',l:'o1'},{n:'ó',l:'o2'},{n:'ǒ',l:'o3'},{n:'ò',l:'o4'}],
     [{n:'ū',l:'u1'},{n:'ú',l:'u2'},{n:'ǔ',l:'u3'},{n:'ù',l:'u4'}],
-    [{n:'ǖ',l:'v1'},{n:'ǘ',l:'v2'},{n:'ǚ',l:'v3'},{n:'ǜ',l:'v4'},{n:'ü',l:'v'}],
-    [{n:'ń',l:'n2'},{n:'ň',l:'n3'},{n:'ǹ',l:'n4'}]
+    [{n:'ǖ',l:'v1'},{n:'ǘ',l:'v2'},{n:'ǚ',l:'v3'},{n:'ǜ',l:'v4'},{n:'ü',l:'v'}]
   ]}]},
   uk:{tabs:[{id:'uk',label:'У Ukrainian',type:'phonetic',rows:[
     [{n:'а',l:'a'},{n:'б',l:'b'},{n:'в',l:'v'},{n:'г',l:'h'},{n:'ґ',l:'g'},{n:'д',l:'d'},{n:'е',l:'e'},{n:'є',l:'ye'},{n:'ж',l:'zh'},{n:'з',l:'z'},{n:'и',l:'y'}],
@@ -667,20 +704,15 @@ var KB_DATA={
 
 function getLangScript(lang){
   var l=(lang||'').toLowerCase();
-  if(/japan|jp/.test(l))return'ja';
-  if(/korean|hangul/.test(l))return'ko';
-  if(/arabic|arab/.test(l))return'ar';
-  if(/russian|russo/.test(l))return'ru';
-  if(/greek/.test(l))return'el';
-  if(/hindi|devanagari/.test(l))return'hi';
-  if(/thai/.test(l))return'th';
-  if(/hebrew/.test(l))return'he';
-  if(/chinese|mandarin|cantonese/.test(l))return'zh';
-  if(/ukrainian/.test(l))return'uk';
+  if(/japan|jp/.test(l))return'ja';if(/korean|hangul/.test(l))return'ko';
+  if(/arabic|arab/.test(l))return'ar';if(/russian|russo/.test(l))return'ru';
+  if(/greek/.test(l))return'el';if(/hindi|devanagari/.test(l))return'hi';
+  if(/thai/.test(l))return'th';if(/hebrew/.test(l))return'he';
+  if(/chinese|mandarin|cantonese/.test(l))return'zh';if(/ukrainian/.test(l))return'uk';
   return null;
 }
 
-// ─── KOREAN COMPOSITION ──────────────────────────────────────
+// ─── KOREAN COMPOSITION ───────────────────────────────────
 var KO_CHO=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 var KO_CHO_L=['g/k','kk','n','d/t','tt','r/l','m','b/p','pp','s','ss','ng','j','jj','ch','k','t','p','h'];
 var KO_JUNG=['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ','ㅘ','ㅙ','ㅚ','ㅝ','ㅞ','ㅟ','ㅢ'];
@@ -692,25 +724,14 @@ function resetKo(){koSt={s:0,cho:-1,jung:-1,jong:-1};}
 function kbHangulTap(ch){
   var inp=document.getElementById(kbTargetId);if(!inp)return;
   var ci=KO_CHO.indexOf(ch),ji=KO_JUNG.indexOf(ch),isCho=ci>=0,isJung=ji>=0;
-  if(koSt.s===0){
-    if(isCho){inp.value+=ch;koSt={s:1,cho:ci,jung:-1,jong:-1};}
-    else if(isJung){inp.value+=koSyl(11,ji,0);koSt={s:2,cho:11,jung:ji,jong:-1};}
-  }else if(koSt.s===1){
-    if(isJung){inp.value=inp.value.slice(0,-1)+koSyl(koSt.cho,ji,0);koSt={s:2,cho:koSt.cho,jung:ji,jong:-1};}
-    else if(isCho){inp.value+=ch;koSt={s:1,cho:ci,jung:-1,jong:-1};}
-  }else if(koSt.s===2){
-    var jki=KO_JONG.indexOf(ch);
-    if(isCho&&jki>0){inp.value=inp.value.slice(0,-1)+koSyl(koSt.cho,koSt.jung,jki);koSt={s:3,cho:koSt.cho,jung:koSt.jung,jong:jki};}
-    else if(isCho){inp.value+=ch;koSt={s:1,cho:ci,jung:-1,jong:-1};}
-    else if(isJung){inp.value+=koSyl(11,ji,0);koSt={s:2,cho:11,jung:ji,jong:-1};}
-  }else if(koSt.s===3){
-    if(isJung){var jCh=KO_JONG[koSt.jong],nCi=KO_CHO.indexOf(jCh);if(nCi>=0){inp.value=inp.value.slice(0,-1)+koSyl(koSt.cho,koSt.jung,0);inp.value+=koSyl(nCi,ji,0);koSt={s:2,cho:nCi,jung:ji,jong:-1};}}
-    else if(isCho){inp.value+=ch;koSt={s:1,cho:ci,jung:-1,jong:-1};}
-  }
+  if(koSt.s===0){if(isCho){inp.value+=ch;koSt={s:1,cho:ci,jung:-1,jong:-1};}else if(isJung){inp.value+=koSyl(11,ji,0);koSt={s:2,cho:11,jung:ji,jong:-1};}}
+  else if(koSt.s===1){if(isJung){inp.value=inp.value.slice(0,-1)+koSyl(koSt.cho,ji,0);koSt={s:2,cho:koSt.cho,jung:ji,jong:-1};}else if(isCho){inp.value+=ch;koSt={s:1,cho:ci,jung:-1,jong:-1};}}
+  else if(koSt.s===2){var jki=KO_JONG.indexOf(ch);if(isCho&&jki>0){inp.value=inp.value.slice(0,-1)+koSyl(koSt.cho,koSt.jung,jki);koSt={s:3,cho:koSt.cho,jung:koSt.jung,jong:jki};}else if(isCho){inp.value+=ch;koSt={s:1,cho:ci,jung:-1,jong:-1};}else if(isJung){inp.value+=koSyl(11,ji,0);koSt={s:2,cho:11,jung:ji,jong:-1};}}
+  else if(koSt.s===3){if(isJung){var jCh=KO_JONG[koSt.jong],nCi=KO_CHO.indexOf(jCh);if(nCi>=0){inp.value=inp.value.slice(0,-1)+koSyl(koSt.cho,koSt.jung,0);inp.value+=koSyl(nCi,ji,0);koSt={s:2,cho:nCi,jung:ji,jong:-1};}}else if(isCho){inp.value+=ch;koSt={s:1,cho:ci,jung:-1,jong:-1};}}
 }
 
-// ─── ROMAJI → HIRAGANA ───────────────────────────────────────
-var R2H=[['kya','きゃ'],['kyu','きゅ'],['kyo','きょ'],['sha','しゃ'],['shi','し'],['shu','しゅ'],['sho','しょ'],['chi','ち'],['tsu','つ'],['cha','ちゃ'],['chu','ちゅ'],['cho','ちょ'],['nya','にゃ'],['nyu','にゅ'],['nyo','にょ'],['hya','ひゃ'],['hyu','ひゅ'],['hyo','ひょ'],['mya','みゃ'],['myu','みゅ'],['myo','みょ'],['rya','りゃ'],['ryu','りゅ'],['ryo','りょ'],['gya','ぎゃ'],['gyu','ぎゅ'],['gyo','ぎょ'],['bya','びゃ'],['byu','びゅ'],['byo','びょ'],['pya','ぴゃ'],['pyu','ぴゅ'],['pyo','ぴょ'],['ja','じゃ'],['ji','じ'],['ju','じゅ'],['jo','じょ'],['fu','ふ'],['fa','ふぁ'],['a','あ'],['i','い'],['u','う'],['e','え'],['o','お'],['ka','か'],['ki','き'],['ku','く'],['ke','け'],['ko','こ'],['sa','さ'],['su','す'],['se','せ'],['so','そ'],['ta','た'],['te','て'],['to','と'],['na','な'],['ni','に'],['nu','ぬ'],['ne','ね'],['no','の'],['ha','は'],['hi','ひ'],['hu','ふ'],['he','へ'],['ho','ほ'],['ma','ま'],['mi','み'],['mu','む'],['me','め'],['mo','も'],['ya','や'],['yu','ゆ'],['yo','よ'],['ra','ら'],['ri','り'],['ru','る'],['re','れ'],['ro','ろ'],['wa','わ'],['wo','を'],['ga','が'],['gi','ぎ'],['gu','ぐ'],['ge','げ'],['go','ご'],['za','ざ'],['zi','じ'],['zu','ず'],['ze','ぜ'],['zo','ぞ'],['da','だ'],['de','で'],['do','ど'],['ba','ば'],['bi','び'],['bu','ぶ'],['be','べ'],['bo','ぼ'],['pa','ぱ'],['pi','ぴ'],['pu','ぷ'],['pe','ぺ'],['po','ぽ']];
+// ─── ROMAJI → HIRAGANA ────────────────────────────────────
+var R2H=[['kya','きゃ'],['kyu','きゅ'],['kyo','きょ'],['sha','しゃ'],['shi','し'],['shu','しゅ'],['sho','しょ'],['chi','ち'],['tsu','つ'],['cha','ちゃ'],['chu','ちゅ'],['cho','ちょ'],['nya','にゃ'],['hya','ひゃ'],['mya','みゃ'],['rya','りゃ'],['gya','ぎゃ'],['bya','びゃ'],['pya','ぴゃ'],['ja','じゃ'],['ji','じ'],['ju','じゅ'],['jo','じょ'],['fu','ふ'],['a','あ'],['i','い'],['u','う'],['e','え'],['o','お'],['ka','か'],['ki','き'],['ku','く'],['ke','け'],['ko','こ'],['sa','さ'],['su','す'],['se','せ'],['so','そ'],['ta','た'],['te','て'],['to','と'],['na','な'],['ni','に'],['nu','ぬ'],['ne','ね'],['no','の'],['ha','は'],['hi','ひ'],['he','へ'],['ho','ほ'],['ma','ま'],['mi','み'],['mu','む'],['me','め'],['mo','も'],['ya','や'],['yu','ゆ'],['yo','よ'],['ra','ら'],['ri','り'],['ru','る'],['re','れ'],['ro','ろ'],['wa','わ'],['wo','を'],['ga','が'],['gi','ぎ'],['gu','ぐ'],['ge','げ'],['go','ご'],['za','ざ'],['zu','ず'],['ze','ぜ'],['zo','ぞ'],['da','だ'],['de','で'],['do','ど'],['ba','ば'],['bi','び'],['bu','ぶ'],['be','べ'],['bo','ぼ'],['pa','ぱ'],['pi','ぴ'],['pu','ぷ'],['pe','ぺ'],['po','ぽ']];
 function convertRomaji(str){
   var s=str.toLowerCase().replace(/([kstnhmyrwgzbdpcfj])\1/g,'っ$1').replace(/nn/g,'ん');
   var out='',i=0;
@@ -730,7 +751,7 @@ function insertRomaji(){
   document.getElementById('romaji-input').value='';document.getElementById('romaji-preview').textContent='';
 }
 
-// ─── KEYBOARD UI ────────────────────────────────────────────
+// ─── KEYBOARD UI ──────────────────────────────────────────
 var kbTargetId=null,kbCurrentScript=null;
 function isCombining(ch){var c=ch.charCodeAt(0);return(c>=0x0300&&c<=0x036F)||(c>=0x064B&&c<=0x065F)||(c>=0x0591&&c<=0x05C7)||(c>=0x093A&&c<=0x094F)||(c>=0x0E31&&c<=0x0E4E);}
 function openKeyboard(inputId,side){
@@ -751,15 +772,9 @@ function closeKeyboard(){
 }
 function renderKbTabs(){
   var data=KB_DATA[kbCurrentScript];if(!data)return;
-  document.getElementById('kb-tabbar').innerHTML=data.tabs.map(function(t,i){
-    return'<button class="kb-tab'+(i===0?' active':'')+'" onclick="switchKbTab('+i+')">'+t.label+'</button>';
-  }).join('');
+  document.getElementById('kb-tabbar').innerHTML=data.tabs.map(function(t,i){return'<button class="kb-tab'+(i===0?' active':'')+'" onclick="switchKbTab('+i+')">'+t.label+'</button>';}).join('');
 }
-function switchKbTab(i){
-  resetKo();
-  document.querySelectorAll('.kb-tab').forEach(function(b,j){b.classList.toggle('active',j===i);});
-  renderKbContent(i);
-}
+function switchKbTab(i){resetKo();document.querySelectorAll('.kb-tab').forEach(function(b,j){b.classList.toggle('active',j===i);});renderKbContent(i);}
 function renderKbContent(tabIdx){
   var data=KB_DATA[kbCurrentScript];if(!data)return;
   var tab=data.tabs[tabIdx],el=document.getElementById('kb-content');
@@ -767,7 +782,7 @@ function renderKbContent(tabIdx){
     el.innerHTML='<div class="kb-section-label">Consonants</div><div class="kb-row">'+KO_CHO.map(function(c,i){return'<button class="kbc-ph" onclick="kbHangulTap(\''+esc(c)+'\')"><span class="kbc-native">'+c+'</span><span class="kbc-latin">'+KO_CHO_L[i]+'</span></button>';}).join('')+'</div>'
       +'<div class="kb-section-label">Vowels</div><div class="kb-row">'+KO_JUNG.map(function(v,i){return'<button class="kbc-ph" onclick="kbHangulTap(\''+esc(v)+'\')"><span class="kbc-native">'+v+'</span><span class="kbc-latin">'+KO_JUNG_L[i]+'</span></button>';}).join('')+'</div>';
   }else if(tab.type==='romaji'){
-    el.innerHTML='<div style="margin-bottom:8px;font-size:.8rem;color:#888;font-weight:600">Type romaji, see hiragana preview, then Insert.</div>'
+    el.innerHTML='<div style="margin-bottom:8px;font-size:.8rem;color:#888;font-weight:600">Type romaji → see hiragana → tap Insert</div>'
       +'<input id="romaji-input" type="text" oninput="updateRomajiPreview()" placeholder="e.g. konnichiwa" style="width:100%;padding:10px;border:2px solid #e0e8ff;border-radius:12px;font-size:1rem;margin-bottom:10px;outline:none"/>'
       +'<div id="romaji-preview" style="font-size:1.8rem;font-weight:900;text-align:center;padding:12px;background:#f0f4ff;border-radius:12px;min-height:56px;letter-spacing:2px"></div>'
       +'<button onclick="insertRomaji()" style="width:100%;margin-top:10px;padding:12px;background:linear-gradient(135deg,#4D96FF,#C77DFF);color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer">Insert →</button>';
@@ -784,82 +799,91 @@ function renderKbContent(tabIdx){
 function kbInsert(ch){var inp=document.getElementById(kbTargetId);if(!inp)return;resetKo();var st=inp.selectionStart||inp.value.length;inp.value=inp.value.slice(0,st)+ch+inp.value.slice(inp.selectionEnd||st);}
 function kbBackspace(){var inp=document.getElementById(kbTargetId);if(!inp)return;resetKo();if(inp.value.length>0)inp.value=inp.value.slice(0,-1);}
 
-// ─── APP STATE ───────────────────────────────────────────────
+// ─── APP STATE ────────────────────────────────────────────
 var decks=[],currentDeckId=null,editCardId=null,editDeckId=null;
-var studyCards=[],studyIdx=0,studyCorrect=0,studyFlipped=false;
-var quizCards=[],quizIdx=0,quizCorrect=0;
+var studyCards=[],studyIdx=0,studyCorrect=0,studyFlipped=false,studyDir='front';
+var quizCards=[],quizIdx=0,quizCorrect=0,quizDir='word',quizLimit=0;
 var imgDataUrl=null,studyOrder='original';
-var audioEnabled=true,autoAudio=false,quizDir='word';
+var audioEnabled=true,autoAudio=false;
 
-// ─── AUDIO ──────────────────────────────────────────────────
+// ─── PROGRESS HELPERS ─────────────────────────────────────
+function getProg(card){return card.prog||{c:0,i:0,s:0};}
+function getMasteryStats(cards){
+  var mastered=0,learning=0,notStarted=0;
+  cards.forEach(function(c){var p=getProg(c);if(p.s>=3)mastered++;else if(p.c>0||p.i>0)learning++;else notStarted++;});
+  return{mastered:mastered,learning:learning,notStarted:notStarted,total:cards.length};
+}
+function updateMasteryDisplay(){
+  var d=getDeck();
+  if(!d.cards||!d.cards.length){document.getElementById('mastery-text').textContent='No cards yet';document.getElementById('mb-mastered').style.width='0%';document.getElementById('mb-learning').style.width='0%';return;}
+  var st=getMasteryStats(d.cards),t=st.total;
+  var pm=Math.round(st.mastered/t*100),pl=Math.round(st.learning/t*100);
+  document.getElementById('mastery-text').innerHTML=
+    '<span style="color:#4CAF50;font-size:1rem">●</span> '+st.mastered+' mastered &nbsp;'
+    +'<span style="color:#FF9F43;font-size:1rem">●</span> '+st.learning+' learning &nbsp;'
+    +'<span style="color:#ccc;font-size:1rem">●</span> '+st.notStarted+' not started';
+  document.getElementById('mb-mastered').style.width=pm+'%';
+  document.getElementById('mb-learning').style.width=pl+'%';
+}
+// Weighted quiz card selection — weak/new cards appear more often
+function getWeightedQuizCards(cards,limit){
+  var pool=[];
+  cards.forEach(function(c){var p=getProg(c),slots;if(p.s>=3)slots=1;else if(p.s>=1)slots=3;else slots=5;for(var i=0;i<slots;i++)pool.push(c);});
+  pool=shuffle(pool);
+  var seen={},result=[];
+  for(var i=0;i<pool.length&&result.length<limit;i++){if(!seen[pool[i].id]){seen[pool[i].id]=true;result.push(pool[i]);}}
+  return result;
+}
+function getEffectiveLimit(cards){return quizLimit===0?cards.length:Math.min(quizLimit,cards.length);}
+function updateQuizEmphasisBadge(){
+  var d=getDeck(),el=document.getElementById('quiz-emphasis-badge');if(!el)return;
+  var st=getMasteryStats(d.cards),weak=st.notStarted+st.learning;
+  if(st.mastered===st.total&&st.total>0){el.className='emphasis-badge all-mastered-badge';el.textContent='🎉 All mastered!';}
+  else if(weak>0&&weak<st.total){el.className='emphasis-badge';el.textContent='⚡ '+weak+' weak card'+(weak!==1?'s':'')+' prioritized';}
+  else{el.textContent='';el.className='';}
+}
+
+function confirmResetProgress(){
+  var d=getDeck();
+  showConfirm('↺ Reset Progress?','Clear all quiz progress for "'+d.name+'"? Your cards will not be deleted.','🔄',async function(){
+    var d2=getDeck();d2.cards.forEach(function(c){c.prog={c:0,i:0,s:0};});
+    await saveToCloud();updateMasteryDisplay();updateQuizEmphasisBadge();toast('Progress reset');
+  });
+}
+
+// ─── AUDIO ────────────────────────────────────────────────
 function toggleAudio(){
   audioEnabled=!audioEnabled;
   if(!audioEnabled&&window.speechSynthesis)window.speechSynthesis.cancel();
-  document.querySelectorAll('.audio-toggle').forEach(function(b){
-    b.textContent=audioEnabled?'🔊 On':'🔇 Off';
-    b.classList.toggle('on',audioEnabled);
-    b.classList.toggle('off',!audioEnabled);
-  });
+  document.querySelectorAll('.audio-toggle').forEach(function(b){b.textContent=audioEnabled?'🔊 On':'🔇 Off';b.classList.toggle('on',audioEnabled);b.classList.toggle('off',!audioEnabled);});
 }
 function toggleAutoAudio(){
   autoAudio=!autoAudio;
-  document.querySelectorAll('.audio-mode-btn').forEach(function(b){
-    b.textContent=autoAudio?'⚡ Auto':'▶ Manual';
-    b.classList.toggle('auto',autoAudio);
-    b.classList.toggle('manual',!autoAudio);
-  });
+  document.querySelectorAll('.audio-mode-btn').forEach(function(b){b.textContent=autoAudio?'⚡ Auto':'▶ Manual';b.classList.toggle('auto',autoAudio);b.classList.toggle('manual',!autoAudio);});
 }
 function autoSpeak(text,lang){if(autoAudio)speakText(text,lang);}
 
-// ─── ORDER ───────────────────────────────────────────────────
-function setOrder(o){
-  studyOrder=o;
-  document.querySelectorAll('.ord-btn').forEach(function(b){b.classList.toggle('active',b.id==='ord-'+o);});
-}
-function getOrderedCards(c){
-  var a=c.slice();
-  if(studyOrder==='shuffle')return shuffle(a);
-  if(studyOrder==='alpha')return a.sort(function(x,y){return x.front.localeCompare(y.front);});
-  return a;
-}
+// ─── ORDER ────────────────────────────────────────────────
+function setOrder(o){studyOrder=o;document.querySelectorAll('.ord-btn').forEach(function(b){b.classList.toggle('active',b.id==='ord-'+o);});}
+function getOrderedCards(c){var a=c.slice();if(studyOrder==='shuffle')return shuffle(a);if(studyOrder==='alpha')return a.sort(function(x,y){return x.front.localeCompare(y.front);});return a;}
 
-// ─── STORAGE ────────────────────────────────────────────────
-// Tries Claude.ai cloud storage first, falls back to localStorage.
-// Either way, decks survive HTML file updates because storage is
-// tied to the session/domain — not the HTML file itself.
+// ─── STORAGE ──────────────────────────────────────────────
 var STORAGE_KEY='lingua_decks3';
-
 function isCloudAvailable(){return typeof window.storage!=='undefined'&&window.storage!==null;}
-
 async function saveToCloud(){
   var payload=JSON.stringify(decks);
-  if(isCloudAvailable()){
-    try{await window.storage.set(STORAGE_KEY,payload);return;}catch(e){}
-  }
-  try{localStorage.setItem(STORAGE_KEY,payload);}catch(e){console.warn('Storage write failed',e);}
+  if(isCloudAvailable()){try{await window.storage.set(STORAGE_KEY,payload);return;}catch(e){}}
+  try{localStorage.setItem(STORAGE_KEY,payload);}catch(e){}
 }
-
 async function loadFromCloud(){
-  // 1. Try Claude cloud storage
-  if(isCloudAvailable()){
-    try{
-      var r=await window.storage.get(STORAGE_KEY);
-      if(r&&r.value){decks=JSON.parse(r.value);return;}
-    }catch(e){}
-  }
-  // 2. Fall back to localStorage
-  try{
-    var raw=localStorage.getItem(STORAGE_KEY);
-    if(raw){decks=JSON.parse(raw);return;}
-  }catch(e){}
-  // 3. Nothing saved yet
+  if(isCloudAvailable()){try{var r=await window.storage.get(STORAGE_KEY);if(r&&r.value){decks=JSON.parse(r.value);return;}}catch(e){}}
+  try{var raw=localStorage.getItem(STORAGE_KEY);if(raw){decks=JSON.parse(raw);return;}}catch(e){}
   decks=[];
 }
 
-// ─── VOICE ──────────────────────────────────────────────────
+// ─── VOICE ────────────────────────────────────────────────
 function langToLocale(lang){
-  if(!lang)return'en-US';
-  var k=lang.toLowerCase().trim();
+  if(!lang)return'en-US';var k=lang.toLowerCase().trim();
   if(LANG_LOCALES[k])return LANG_LOCALES[k];
   for(var key in LANG_LOCALES){if(k.indexOf(key)>=0||key.indexOf(k)>=0)return LANG_LOCALES[key];}
   return'en-US';
@@ -867,21 +891,17 @@ function langToLocale(lang){
 function getBestVoice(locale){
   var vs=window.speechSynthesis.getVoices();if(!vs.length)return null;
   var l2=locale.split('-')[0];
-  return vs.filter(function(v){return v.lang===locale;})[0]
-    ||vs.filter(function(v){return v.lang.indexOf(l2+'-')===0;})[0]
-    ||vs.filter(function(v){return v.lang.indexOf(l2)===0;})[0]
-    ||null;
+  return vs.filter(function(v){return v.lang===locale;})[0]||vs.filter(function(v){return v.lang.indexOf(l2+'-')===0;})[0]||vs.filter(function(v){return v.lang.indexOf(l2)===0;})[0]||null;
 }
 function speakText(text,langName){
   if(!audioEnabled||!window.speechSynthesis)return;
   window.speechSynthesis.cancel();
   var locale=langToLocale(langName),u=new SpeechSynthesisUtterance(text);u.lang=locale;
   function go(){var v=getBestVoice(locale);if(v)u.voice=v;window.speechSynthesis.speak(u);}
-  if(window.speechSynthesis.getVoices().length){go();}
-  else{window.speechSynthesis.onvoiceschanged=function(){go();window.speechSynthesis.onvoiceschanged=null;};}
+  if(window.speechSynthesis.getVoices().length){go();}else{window.speechSynthesis.onvoiceschanged=function(){go();window.speechSynthesis.onvoiceschanged=null;};}
 }
 
-// ─── INIT ────────────────────────────────────────────────────
+// ─── INIT ─────────────────────────────────────────────────
 (async function(){
   await loadFromCloud();
   if(!decks.length)seedSampleDecks();
@@ -891,25 +911,29 @@ function speakText(text,langName){
 function seedSampleDecks(){
   decks=[
     {id:uid(),name:'Spanish Basics',wordLang:'English',defLang:'Spanish',color:COLORS[0],cards:[
-      {id:uid(),front:'Hello',back:'Hola',hint:'',img:''},{id:uid(),front:'Thank you',back:'Gracias',hint:'',img:''},
-      {id:uid(),front:'Good morning',back:'Buenos días',hint:'',img:''},{id:uid(),front:'Water',back:'Agua',hint:'',img:''}
+      {id:uid(),front:'Hello',back:'Hola',hint:'',img:'',prog:{c:0,i:0,s:0}},
+      {id:uid(),front:'Thank you',back:'Gracias',hint:'',img:'',prog:{c:0,i:0,s:0}},
+      {id:uid(),front:'Good morning',back:'Buenos días',hint:'',img:'',prog:{c:0,i:0,s:0}},
+      {id:uid(),front:'Water',back:'Agua',hint:'',img:'',prog:{c:0,i:0,s:0}}
     ]},
     {id:uid(),name:'Japanese Greetings',wordLang:'English',defLang:'Japanese',color:COLORS[3],cards:[
-      {id:uid(),front:'Hello',back:'こんにちは',hint:'Kon-ni-chi-wa',img:''},
-      {id:uid(),front:'Thank you',back:'ありがとう',hint:'A-ri-ga-to',img:''},
-      {id:uid(),front:'Good night',back:'おやすみ',hint:'O-ya-su-mi',img:''}
+      {id:uid(),front:'Hello',back:'こんにちは',hint:'Kon-ni-chi-wa',img:'',prog:{c:0,i:0,s:0}},
+      {id:uid(),front:'Thank you',back:'ありがとう',hint:'A-ri-ga-to',img:'',prog:{c:0,i:0,s:0}},
+      {id:uid(),front:'Good night',back:'おやすみ',hint:'O-ya-su-mi',img:'',prog:{c:0,i:0,s:0}}
     ]}
   ];
 }
 
-// ─── HOME ────────────────────────────────────────────────────
+// ─── HOME ─────────────────────────────────────────────────
 function renderHome(){
   var g=document.getElementById('decks-grid');
   if(!decks.length){g.innerHTML='<div class="empty"><div class="empty-icon">📭</div><div>No decks yet. Create one or use AI Generate!</div></div>';return;}
   g.innerHTML=decks.map(function(d){
+    var st=getMasteryStats(d.cards),pct=d.cards.length?Math.round(st.mastered/d.cards.length*100):0;
     return'<div class="deck-card" style="background:'+d.color+'" onclick="openDeck(\''+d.id+'\')">'
       +'<div><div class="deck-lang-badge">'+esc(d.wordLang)+' → '+esc(d.defLang)+'</div>'
-      +'<h3>'+esc(d.name)+'</h3><div style="font-size:.8rem;opacity:.85">'+d.cards.length+' card'+(d.cards.length!==1?'s':'')+'</div></div>'
+      +'<h3>'+esc(d.name)+'</h3>'
+      +'<div style="font-size:.8rem;opacity:.85">'+d.cards.length+' card'+(d.cards.length!==1?'s':'')+' · '+pct+'% mastered</div></div>'
       +'<div class="deck-actions" onclick="event.stopPropagation()">'
       +'<button class="deck-btn deck-btn-study" onclick="openDeck(\''+d.id+'\');setTimeout(startStudy,100)">📖 Study</button>'
       +'<button class="deck-btn deck-btn-quiz" onclick="openDeck(\''+d.id+'\');setTimeout(startQuiz,100)">⚡ Quiz</button>'
@@ -918,19 +942,22 @@ function renderHome(){
   }).join('');
 }
 
-// ─── DECK VIEW ───────────────────────────────────────────────
+// ─── DECK VIEW ────────────────────────────────────────────
 function openDeck(id){
   currentDeckId=id;var d=getDeck();
   document.getElementById('deck-view-title').textContent=d.name;
   document.getElementById('deck-view-langs').textContent='🔊 '+d.wordLang+'  →  '+d.defLang;
-  renderCardList();showPage('page-deck');
+  updateMasteryDisplay();renderCardList();showPage('page-deck');
 }
 function renderCardList(){
   var d=getDeck(),el=document.getElementById('card-list');
   if(!d.cards.length){el.innerHTML='<div class="empty"><div class="empty-icon">🃏</div><div>No cards yet. Add your first!</div></div>';return;}
   el.innerHTML=getOrderedCards(d.cards).map(function(c){
+    var p=getProg(c),badge='';
+    if(p.s>=3)badge='<span style="font-size:.7rem;background:#e8f5e9;color:#2e7d32;border-radius:50px;padding:1px 7px;font-weight:700;margin-left:6px">✓ mastered</span>';
+    else if(p.s>0)badge='<span style="font-size:.7rem;background:#fff3e0;color:#e65c00;border-radius:50px;padding:1px 7px;font-weight:700;margin-left:6px">streak '+p.s+'</span>';
     return'<div class="card-item"><div class="card-thumb">'+(c.img?'<img src="'+c.img+'" alt=""/>':"🃏")+'</div>'
-      +'<div class="card-words"><div class="card-front"><span class="card-lang-tag">'+esc(d.wordLang)+'</span>'+esc(c.front)+'</div>'
+      +'<div class="card-words"><div class="card-front"><span class="card-lang-tag">'+esc(d.wordLang)+'</span>'+esc(c.front)+badge+'</div>'
       +'<div class="card-back"><span class="card-lang-tag">'+esc(d.defLang)+'</span>'+esc(c.back)+(c.hint?' <span style="color:#ccc">· '+esc(c.hint)+'</span>':'')+'</div></div>'
       +'<div class="card-actions">'
       +'<button class="btn-icon" onclick="speakText(\''+esc(c.front)+'\',\''+esc(d.wordLang)+'\')">🔊</button>'
@@ -940,11 +967,22 @@ function renderCardList(){
   }).join('');
 }
 
-// ─── STUDY ──────────────────────────────────────────────────
+// ─── STUDY ────────────────────────────────────────────────
 function startStudy(){
   var d=getDeck();if(!d.cards.length){toast('No cards!');return;}
   studyCards=getOrderedCards(d.cards);studyIdx=0;studyCorrect=0;studyFlipped=false;
   showPage('page-study');renderStudyCard();
+}
+function toggleStudyDir(){
+  studyDir=studyDir==='front'?'back':'front';
+  var btn=document.getElementById('study-dir-btn');
+  if(studyDir==='front'){btn.textContent='🔤 Word first';btn.classList.remove('alt');}
+  else{btn.textContent='📖 Def first';btn.classList.add('alt');}
+  renderStudyCard();
+}
+function getStudyFrontBack(c,d){
+  if(studyDir==='front')return{ft:c.front,bt:c.back,fl:d.wordLang,bl:d.defLang,bh:c.hint||''};
+  return{ft:c.back,bt:c.front,fl:d.defLang,bl:d.wordLang,bh:''};
 }
 function updatePrevBtns(){
   var dis=studyIdx===0;
@@ -954,21 +992,21 @@ function updatePrevBtns(){
 function renderStudyCard(){
   if(studyIdx>=studyCards.length){showScore(false);return;}
   var c=studyCards[studyIdx],d=getDeck(),total=studyCards.length;
+  var fb=getStudyFrontBack(c,d);
   document.getElementById('study-counter').textContent=(studyIdx+1)+' / '+total;
   document.getElementById('study-progress').style.width=((studyIdx/total)*100)+'%';
-  document.getElementById('study-front-lang-label').textContent=d.wordLang;
-  document.getElementById('study-back-lang-label').textContent=d.defLang;
-  document.getElementById('study-front').textContent=c.front;
-  document.getElementById('study-back').textContent=c.back;
-  document.getElementById('study-back-hint').textContent=c.hint||'';
+  document.getElementById('study-front-lang-label').textContent=fb.fl;
+  document.getElementById('study-back-lang-label').textContent=fb.bl;
+  document.getElementById('study-front').textContent=fb.ft;
+  document.getElementById('study-back').textContent=fb.bt;
+  document.getElementById('study-back-hint').textContent=fb.bh;
   var img=document.getElementById('study-img');
-  if(c.img){img.src=c.img;img.style.display='block';}else{img.style.display='none';}
+  if(c.img&&studyDir==='front'){img.src=c.img;img.style.display='block';}else{img.style.display='none';}
   document.getElementById('flip-card').classList.remove('flipped');
   document.getElementById('study-actions').style.display='flex';
   document.getElementById('feedback-actions').style.display='none';
-  studyFlipped=false;
-  updatePrevBtns();
-  autoSpeak(c.front,d.wordLang);
+  studyFlipped=false;updatePrevBtns();
+  autoSpeak(fb.ft,fb.fl);
 }
 function flipCard(){
   studyFlipped=!studyFlipped;
@@ -976,7 +1014,8 @@ function flipCard(){
   if(studyFlipped){
     document.getElementById('study-actions').style.display='none';
     document.getElementById('feedback-actions').style.display='flex';
-    autoSpeak(studyCards[studyIdx].back,getDeck().defLang);
+    var c=studyCards[studyIdx],d=getDeck(),fb=getStudyFrontBack(c,d);
+    autoSpeak(fb.bt,fb.bl);
   }
 }
 function prevCard(){if(studyIdx>0){studyIdx--;renderStudyCard();}}
@@ -984,77 +1023,82 @@ function nextCard(){studyIdx++;renderStudyCard();}
 function markCard(ok){if(ok)studyCorrect++;studyIdx++;renderStudyCard();}
 function speakCurrent(e,side){
   e.stopPropagation();
-  var c=studyCards[studyIdx],d=getDeck();
-  speakText(side==='front'?c.front:c.back,side==='front'?d.wordLang:d.defLang);
+  var c=studyCards[studyIdx],d=getDeck(),fb=getStudyFrontBack(c,d);
+  speakText(side==='front'?fb.ft:fb.bt,side==='front'?fb.fl:fb.bl);
 }
 
+// ─── QUIZ ─────────────────────────────────────────────────
+function startQuiz(){
+  var d=getDeck();if(d.cards.length<2){toast('Need at least 2 cards!');return;}
+  quizDir='word';
+  var dirBtn=document.getElementById('quiz-dir-btn');
+  dirBtn.textContent='🔤 Word → Def';dirBtn.classList.remove('alt');
+  // Sync limit toggle
+  document.querySelectorAll('#ql-toggle .ord-btn').forEach(function(b){b.classList.toggle('active',b.id==='ql-'+quizLimit);});
+  quizCards=getWeightedQuizCards(getOrderedCards(d.cards),getEffectiveLimit(d.cards));
+  quizIdx=0;quizCorrect=0;
+  showPage('page-quiz');updateQuizEmphasisBadge();renderQuizCard();
+}
+function setQuizLimit(n){
+  quizLimit=n;
+  document.querySelectorAll('#ql-toggle .ord-btn').forEach(function(b){b.classList.toggle('active',b.id==='ql-'+n);});
+  var d=getDeck();
+  quizCards=getWeightedQuizCards(getOrderedCards(d.cards),getEffectiveLimit(d.cards));
+  quizIdx=0;quizCorrect=0;updateQuizEmphasisBadge();renderQuizCard();
+}
 function toggleQuizDir(){
   quizDir=quizDir==='word'?'def':'word';
   var btn=document.getElementById('quiz-dir-btn');
+  if(quizDir==='word'){btn.textContent='🔤 Word → Def';btn.classList.remove('alt');}
+  else{btn.textContent='📖 Def → Word';btn.classList.add('alt');}
   var d=getDeck();
-  if(quizDir==='word'){
-    btn.textContent='🔤 Word → Def';
-    btn.style.background='#f0f4ff';
-    btn.style.color='#666';
-    btn.style.borderColor='#e0e8ff';
-  }else{
-    btn.textContent='📖 Def → Word';
-    btn.style.background='#f0e8ff';
-    btn.style.color='#7b1fa2';
-    btn.style.borderColor='#c77dff';
-  }
-  // Restart quiz from current position with new direction
-  quizIdx=0;quizCorrect=0;
-  quizCards=getOrderedCards(d.cards);
-  renderQuizCard();
-}
-
-// ─── QUIZ ───────────────────────────────────────────────────
-function startQuiz(){
-  var d=getDeck();if(d.cards.length<2){toast('Need at least 2 cards!');return;}
-  quizCards=getOrderedCards(d.cards);quizIdx=0;quizCorrect=0;quizDir='word';
-  var btn=document.getElementById('quiz-dir-btn');
-  btn.textContent='🔤 Word → Def';
-  btn.style.background='#f0f4ff';btn.style.color='#666';btn.style.borderColor='#e0e8ff';
-  showPage('page-quiz');renderQuizCard();
+  quizCards=getWeightedQuizCards(getOrderedCards(d.cards),getEffectiveLimit(d.cards));
+  quizIdx=0;quizCorrect=0;renderQuizCard();
 }
 function renderQuizCard(){
   if(quizIdx>=quizCards.length){showScore(true);return;}
   var c=quizCards[quizIdx],d=getDeck();
   var askWord=(quizDir==='word');
-  var questionText = askWord ? c.front : c.back;
-  var answerText   = askWord ? c.back  : c.front;
-  var questionLang = askWord ? d.wordLang : d.defLang;
-  var answerLang   = askWord ? d.defLang  : d.wordLang;
+  var qText=askWord?c.front:c.back,aText=askWord?c.back:c.front;
+  var qLang=askWord?d.wordLang:d.defLang,aLang=askWord?d.defLang:d.wordLang;
   document.getElementById('quiz-counter').textContent=(quizIdx+1)+' / '+quizCards.length;
-  document.getElementById('quiz-front-lang').textContent=questionLang;
-  document.getElementById('quiz-word').textContent=questionText;
-  document.getElementById('quiz-back-lang-hint').textContent='Choose the correct '+answerLang+' '+(askWord?'translation':'word');
-  autoSpeak(questionText,questionLang);
+  document.getElementById('quiz-front-lang').textContent=qLang;
+  document.getElementById('quiz-word').textContent=qText;
+  document.getElementById('quiz-back-lang-hint').textContent='Choose the correct '+aLang+' '+(askWord?'translation':'word');
+  autoSpeak(qText,qLang);
   var others=shuffle(d.cards.filter(function(x){return x.id!==c.id;})).slice(0,3).map(function(x){return askWord?x.back:x.front;});
-  var opts=shuffle([answerText].concat(others));
+  var opts=shuffle([aText].concat(others));
   document.getElementById('quiz-options').innerHTML=opts.map(function(o){
-    return'<button class="quiz-opt" onclick="checkQuiz(this,\''+esc(o)+'\',\''+esc(answerText)+'\',\''+esc(answerLang)+'\')">'+esc(o)+'</button>';
+    return'<button class="quiz-opt" onclick="checkQuiz(this,\''+esc(o)+'\',\''+esc(aText)+'\',\''+esc(aLang)+'\')">'+esc(o)+'</button>';
   }).join('');
 }
 function checkQuiz(btn,chosen,correct,answerLang){
   document.querySelectorAll('.quiz-opt').forEach(function(b){b.disabled=true;});
-  if(chosen===correct){btn.classList.add('correct');quizCorrect++;}
-  else{btn.classList.add('wrong');document.querySelectorAll('.quiz-opt').forEach(function(b){if(b.textContent===correct)b.classList.add('correct');});}
+  var c=quizCards[quizIdx];
+  if(!c.prog)c.prog={c:0,i:0,s:0};
+  var wasCorrect=(chosen===correct);
+  if(wasCorrect){btn.classList.add('correct');quizCorrect++;c.prog.c++;c.prog.s++;}
+  else{btn.classList.add('wrong');document.querySelectorAll('.quiz-opt').forEach(function(b){if(b.textContent===correct)b.classList.add('correct');});c.prog.i++;c.prog.s=0;}
   autoSpeak(correct,answerLang);
+  saveToCloud(); // save progress async
   setTimeout(function(){quizIdx++;renderQuizCard();},1300);
 }
 
-// ─── SCORE ──────────────────────────────────────────────────
+// ─── SCORE ────────────────────────────────────────────────
 function showScore(isQuiz){
   var total=isQuiz?quizCards.length:studyCards.length,correct=isQuiz?quizCorrect:studyCorrect,pct=Math.round((correct/total)*100);
   document.getElementById('score-pct').textContent=pct+'%';
-  document.getElementById('score-detail').textContent=correct+' of '+total+' marked correct';
+  document.getElementById('score-detail').textContent=correct+' of '+total+' answered correctly';
   document.getElementById('score-emoji').textContent=pct>=80?'🎉':pct>=50?'💪':'📚';
+  if(isQuiz){
+    var d=getDeck(),st=getMasteryStats(d.cards);
+    document.getElementById('score-mastery').textContent='📊 Overall: '+st.mastered+' / '+st.total+' cards mastered';
+  }else{document.getElementById('score-mastery').textContent='';}
+  updateMasteryDisplay();
   showPage('page-score');
 }
 
-// ─── AI GENERATE ────────────────────────────────────────────
+// ─── AI GENERATE ──────────────────────────────────────────
 function toggleApiKeyVis(){var i=document.getElementById('ai-apikey');i.type=i.type==='password'?'text':'password';}
 async function generateAIDeck(){
   var topic=document.getElementById('ai-topic').value.trim(),wl=document.getElementById('ai-wordlang').value.trim(),dl=document.getElementById('ai-deflang').value.trim(),count=document.getElementById('ai-count').value,apiKey=document.getElementById('ai-apikey').value.trim();
@@ -1067,7 +1111,7 @@ async function generateAIDeck(){
     var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:headers,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
     if(!res.ok){var err=await res.json().catch(function(){return{};});if(res.status===401)throw new Error('Invalid or missing API key.');throw new Error((err.error&&err.error.message)||'Request failed: '+res.status);}
     var data=await res.json(),text=data.content.map(function(i){return i.text||'';}).join('').replace(/```json|```/g,'').trim(),cards=JSON.parse(text);
-    var deck={id:uid(),name:topic+' ('+wl+' to '+dl+')',wordLang:wl,defLang:dl,color:COLORS[Math.floor(Math.random()*COLORS.length)],cards:cards.map(function(c){return{id:uid(),front:c.front,back:c.back,hint:c.hint||'',img:''};})};
+    var deck={id:uid(),name:topic+' ('+wl+' to '+dl+')',wordLang:wl,defLang:dl,color:COLORS[Math.floor(Math.random()*COLORS.length)],cards:cards.map(function(c){return{id:uid(),front:c.front,back:c.back,hint:c.hint||'',img:'',prog:{c:0,i:0,s:0}};})};
     decks.push(deck);await saveToCloud();renderHome();closeModal('modal-ai');
     toast('Generated '+deck.cards.length+' cards!');
     ['ai-topic','ai-wordlang','ai-deflang'].forEach(function(id){document.getElementById(id).value='';});
@@ -1075,27 +1119,12 @@ async function generateAIDeck(){
   finally{btn.disabled=false;}
 }
 
-// ─── CSV ────────────────────────────────────────────────────
+// ─── CSV ──────────────────────────────────────────────────
 var csvRows=[],csvHeaders=[],csvSelectedColor=COLORS[2];
 function openCSVModal(){resetCSV();buildCSVColorPicker();openModal('modal-csv');}
-function buildCSVColorPicker(){
-  document.getElementById('csv-color-picker').innerHTML=COLORS.map(function(c,i){
-    return'<div class="color-dot'+(i===2?' selected':'')+'" style="background:'+c+'" data-color="'+c+'" onclick="selectCSVColor('+i+')"></div>';
-  }).join('');
-  csvSelectedColor=COLORS[2];
-}
-function selectCSVColor(idx){
-  csvSelectedColor=COLORS[idx];
-  document.querySelectorAll('#csv-color-picker .color-dot').forEach(function(d,i){d.classList.toggle('selected',i===idx);});
-}
-function resetCSV(){
-  csvRows=[];csvHeaders=[];
-  document.getElementById('csv-step1').style.display='block';
-  document.getElementById('csv-step2').style.display='none';
-  document.getElementById('csv-create-btn').style.display='none';
-  document.getElementById('csv-error').style.display='none';
-  document.getElementById('csv-file-input').value='';
-}
+function buildCSVColorPicker(){document.getElementById('csv-color-picker').innerHTML=COLORS.map(function(c,i){return'<div class="color-dot'+(i===2?' selected':'')+'" style="background:'+c+'" data-color="'+c+'" onclick="selectCSVColor('+i+')"></div>';}).join('');csvSelectedColor=COLORS[2];}
+function selectCSVColor(idx){csvSelectedColor=COLORS[idx];document.querySelectorAll('#csv-color-picker .color-dot').forEach(function(d,i){d.classList.toggle('selected',i===idx);});}
+function resetCSV(){csvRows=[];csvHeaders=[];document.getElementById('csv-step1').style.display='block';document.getElementById('csv-step2').style.display='none';document.getElementById('csv-create-btn').style.display='none';document.getElementById('csv-error').style.display='none';document.getElementById('csv-file-input').value='';}
 function handleCSVDrop(e){e.preventDefault();document.getElementById('csv-drop-zone').style.borderColor='';var f=e.dataTransfer.files[0];if(f)parseCSVFile(f);}
 function handleCSVFile(e){var f=e.target.files[0];if(f)parseCSVFile(f);}
 function parseCSVFile(file){
@@ -1108,35 +1137,19 @@ function parseCSVFile(file){
     document.getElementById('csv-row-count').textContent='(showing first 5 of '+csvRows.length+')';
     document.getElementById('csv-deck-name').value=file.name.replace(/\.csv$/i,'').replace(/[_-]/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
     buildColumnSelects();renderCSVPreview();
-    document.getElementById('csv-step1').style.display='none';
-    document.getElementById('csv-step2').style.display='block';
-    document.getElementById('csv-create-btn').style.display='inline-flex';
+    document.getElementById('csv-step1').style.display='none';document.getElementById('csv-step2').style.display='block';document.getElementById('csv-create-btn').style.display='inline-flex';
   };
   reader.readAsText(file);
 }
 function parseCSV(text){
-  var rows=[],row=[],cell='',inQ=false;
-  text=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
-  for(var i=0;i<text.length;i++){
-    var ch=text[i],nx=text[i+1];
-    if(inQ){if(ch==='"'&&nx==='"'){cell+='"';i++;}else if(ch==='"'){inQ=false;}else{cell+=ch;}}
-    else{if(ch==='"'){inQ=true;}else if(ch===','){row.push(cell.trim());cell='';}else if(ch==='\n'){row.push(cell.trim());cell='';if(row.length)rows.push(row);row=[];}else{cell+=ch;}}
-  }
-  if(cell||row.length)row.push(cell.trim());
-  if(row.length&&row.some(function(c){return c;}))rows.push(row);
-  return rows;
+  var rows=[],row=[],cell='',inQ=false;text=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  for(var i=0;i<text.length;i++){var ch=text[i],nx=text[i+1];if(inQ){if(ch==='"'&&nx==='"'){cell+='"';i++;}else if(ch==='"'){inQ=false;}else{cell+=ch;}}else{if(ch==='"'){inQ=true;}else if(ch===','){row.push(cell.trim());cell='';}else if(ch==='\n'){row.push(cell.trim());cell='';if(row.length)rows.push(row);row=[];}else{cell+=ch;}}}
+  if(cell||row.length)row.push(cell.trim());if(row.length&&row.some(function(c){return c;}))rows.push(row);return rows;
 }
 function buildColumnSelects(){
   var none='<option value="-1">— none —</option>';
-  ['csv-col-front','csv-col-back','csv-col-hint'].forEach(function(id){
-    var sel=document.getElementById(id);
-    sel.innerHTML=(id==='csv-col-hint'?none:'')+csvHeaders.map(function(h,i){return'<option value="'+i+'">'+esc(h||'Col '+(i+1))+'</option>';}).join('');
-  });
-  function autoSelect(sid,keys,def){
-    var sel=document.getElementById(sid);
-    for(var i=0;i<csvHeaders.length;i++){var h=csvHeaders[i].toLowerCase();if(keys.some(function(k){return h.indexOf(k)>=0;})){sel.value=i;return;}}
-    if(def>=0&&def<csvHeaders.length)sel.value=def;
-  }
+  ['csv-col-front','csv-col-back','csv-col-hint'].forEach(function(id){var sel=document.getElementById(id);sel.innerHTML=(id==='csv-col-hint'?none:'')+csvHeaders.map(function(h,i){return'<option value="'+i+'">'+esc(h||'Col '+(i+1))+'</option>';}).join('');});
+  function autoSelect(sid,keys,def){var sel=document.getElementById(sid);for(var i=0;i<csvHeaders.length;i++){var h=csvHeaders[i].toLowerCase();if(keys.some(function(k){return h.indexOf(k)>=0;})){sel.value=i;return;}}if(def>=0&&def<csvHeaders.length)sel.value=def;}
   autoSelect('csv-col-front',['front','term','word','question','english','source'],0);
   autoSelect('csv-col-back',['back','definition','answer','translation','target'],Math.min(1,csvHeaders.length-1));
   document.getElementById('csv-col-hint').value='-1';
@@ -1144,16 +1157,9 @@ function buildColumnSelects(){
 }
 function renderCSVPreview(){
   var fi=parseInt(document.getElementById('csv-col-front').value),bi=parseInt(document.getElementById('csv-col-back').value),hi=parseInt(document.getElementById('csv-col-hint').value);
-  document.getElementById('csv-preview-head').innerHTML='<tr><th style="padding:7px 10px;border-bottom:2px solid #e0e8ff;color:#888">#</th>'
-    +'<th style="padding:7px 10px;border-bottom:2px solid #e0e8ff;color:var(--c4)">Front'+(fi>=0?' ('+esc(csvHeaders[fi])+')</span>':'')+'</th>'
-    +'<th style="padding:7px 10px;border-bottom:2px solid #e0e8ff;color:var(--c5)">Back'+(bi>=0?' ('+esc(csvHeaders[bi])+')</span>':'')+'</th>'
-    +(hi>=0?'<th style="padding:7px 10px;border-bottom:2px solid #e0e8ff;color:#aaa">Hint</th>':'')+'</tr>';
+  document.getElementById('csv-preview-head').innerHTML='<tr><th style="padding:7px 10px;border-bottom:2px solid #e0e8ff;color:#888">#</th><th style="padding:7px 10px;border-bottom:2px solid #e0e8ff;color:var(--c4)">Front'+(fi>=0?' ('+esc(csvHeaders[fi])+')</span>':'')+'</th><th style="padding:7px 10px;border-bottom:2px solid #e0e8ff;color:var(--c5)">Back'+(bi>=0?' ('+esc(csvHeaders[bi])+')</span>':'')+'</th>'+(hi>=0?'<th style="padding:7px 10px;border-bottom:2px solid #e0e8ff;color:#aaa">Hint</th>':'')+'</tr>';
   document.getElementById('csv-preview-body').innerHTML=csvRows.slice(0,5).map(function(r,idx){
-    return'<tr style="border-bottom:1px solid #f0f4ff">'
-      +'<td style="padding:6px 10px;color:#aaa;font-size:.75rem">'+(idx+1)+'</td>'
-      +'<td style="padding:6px 10px;font-weight:600">'+(fi>=0&&r[fi]?esc(r[fi]):'<span style="color:#e53935">—</span>')+'</td>'
-      +'<td style="padding:6px 10px;color:#555">'+(bi>=0&&r[bi]?esc(r[bi]):'<span style="color:#e53935">—</span>')+'</td>'
-      +(hi>=0?'<td style="padding:6px 10px;color:#aaa;font-size:.8rem">'+esc(r[hi]||'')+'</td>':'')+'</tr>';
+    return'<tr style="border-bottom:1px solid #f0f4ff"><td style="padding:6px 10px;color:#aaa;font-size:.75rem">'+(idx+1)+'</td><td style="padding:6px 10px;font-weight:600">'+(fi>=0&&r[fi]?esc(r[fi]):'<span style="color:#e53935">—</span>')+'</td><td style="padding:6px 10px;color:#555">'+(bi>=0&&r[bi]?esc(r[bi]):'<span style="color:#e53935">—</span>')+'</td>'+(hi>=0?'<td style="padding:6px 10px;color:#aaa;font-size:.8rem">'+esc(r[hi]||'')+'</td>':'')+'</tr>';
   }).join('');
 }
 async function createDeckFromCSV(){
@@ -1164,13 +1170,22 @@ async function createDeckFromCSV(){
   if(!wl||!dl){errEl.textContent='Please enter both languages.';errEl.style.display='block';return;}
   if(fi<0||bi<0){errEl.textContent='Please map Front and Back columns.';errEl.style.display='block';return;}
   if(fi===bi){errEl.textContent='Front and Back cannot be the same column.';errEl.style.display='block';return;}
-  var cards=csvRows.filter(function(r){return r[fi]&&r[fi].trim()&&r[bi]&&r[bi].trim();}).map(function(r){return{id:uid(),front:r[fi].trim(),back:r[bi].trim(),hint:(hi>=0&&r[hi]?r[hi].trim():''),img:''};});
+  var cards=csvRows.filter(function(r){return r[fi]&&r[fi].trim()&&r[bi]&&r[bi].trim();}).map(function(r){return{id:uid(),front:r[fi].trim(),back:r[bi].trim(),hint:(hi>=0&&r[hi]?r[hi].trim():''),img:'',prog:{c:0,i:0,s:0}};});
   if(!cards.length){errEl.textContent='No valid rows found.';errEl.style.display='block';return;}
   decks.push({id:uid(),name:name,wordLang:wl,defLang:dl,color:csvSelectedColor,cards:cards});
   await saveToCloud();renderHome();closeModal('modal-csv');toast('Imported '+cards.length+' cards!');
 }
 
-// ─── DECK CRUD ───────────────────────────────────────────────
+// ─── CONFIRM DIALOG ───────────────────────────────────────
+function showConfirm(title,msg,icon,onOk){
+  document.getElementById('confirm-title').textContent=title;
+  document.getElementById('confirm-msg').textContent=msg;
+  document.getElementById('confirm-icon').textContent=icon||'⚠️';
+  document.getElementById('confirm-ok-btn').onclick=function(){closeModal('modal-confirm');onOk();};
+  openModal('modal-confirm');
+}
+
+// ─── DECK CRUD ────────────────────────────────────────────
 function openNewDeckModal(){
   editDeckId=null;document.getElementById('deck-modal-title').textContent='New Deck';
   ['deck-name-input','deck-wordlang-input','deck-deflang-input'].forEach(function(id){document.getElementById(id).value='';});
@@ -1187,27 +1202,23 @@ function openEditDeckModal(id){
 async function saveDeck(){
   var name=document.getElementById('deck-name-input').value.trim(),wl=document.getElementById('deck-wordlang-input').value.trim(),dl=document.getElementById('deck-deflang-input').value.trim();
   if(!name||!wl||!dl){toast('Please fill in all fields');return;}
-  var color=(document.querySelector('#color-picker .color-dot.selected')||{}).dataset||{color:COLORS[0]};
-  color=color.color||COLORS[0];
+  var sel=document.querySelector('#color-picker .color-dot.selected'),color=sel?sel.dataset.color:COLORS[0];
   if(editDeckId){
-    var d=decks.filter(function(x){return x.id===editDeckId;})[0];
-    d.name=name;d.wordLang=wl;d.defLang=dl;d.color=color;
+    var d=decks.filter(function(x){return x.id===editDeckId;})[0];d.name=name;d.wordLang=wl;d.defLang=dl;d.color=color;
     if(currentDeckId===editDeckId){document.getElementById('deck-view-title').textContent=name;document.getElementById('deck-view-langs').textContent='🔊 '+wl+'  →  '+dl;}
   }else{decks.push({id:uid(),name:name,wordLang:wl,defLang:dl,color:color,cards:[]});}
   await saveToCloud();renderHome();closeModal('modal-deck');toast(editDeckId?'Deck updated!':'Deck created!');
 }
-async function deleteDeck(){
-  if(!confirm('Delete this deck?'))return;
-  decks=decks.filter(function(d){return d.id!==currentDeckId;});
-  await saveToCloud();renderHome();goHome();toast('Deck deleted');
+function deleteDeck(){
+  var d=getDeck();
+  showConfirm('Delete Deck?','Delete "'+d.name+'" and all '+d.cards.length+' card'+(d.cards.length!==1?'s':'')+' inside? This cannot be undone.','🗑️',async function(){
+    decks=decks.filter(function(x){return x.id!==currentDeckId;});
+    await saveToCloud();renderHome();goHome();toast('Deck deleted');
+  });
 }
 
-// ─── CARD CRUD ───────────────────────────────────────────────
-function setupKbButtons(){
-  var d=getDeck();
-  document.getElementById('kb-btn-front').style.display=getLangScript(d.wordLang)?'inline-block':'none';
-  document.getElementById('kb-btn-back').style.display=getLangScript(d.defLang)?'inline-block':'none';
-}
+// ─── CARD CRUD ────────────────────────────────────────────
+function setupKbButtons(){var d=getDeck();document.getElementById('kb-btn-front').style.display=getLangScript(d.wordLang)?'inline-block':'none';document.getElementById('kb-btn-back').style.display=getLangScript(d.defLang)?'inline-block':'none';}
 function openAddCardModal(){
   editCardId=null;var d=getDeck();
   document.getElementById('card-modal-title').textContent='Add Card';
@@ -1225,9 +1236,7 @@ function openEditCardModal(cid){
   document.getElementById('card-modal-title').textContent='Edit Card';
   document.getElementById('card-front-label').textContent='Front — '+d.wordLang;
   document.getElementById('card-back-label').textContent='Back — '+d.defLang;
-  document.getElementById('card-front-input').value=c.front;
-  document.getElementById('card-back-input').value=c.back;
-  document.getElementById('card-hint-input').value=c.hint||'';
+  document.getElementById('card-front-input').value=c.front;document.getElementById('card-back-input').value=c.back;document.getElementById('card-hint-input').value=c.hint||'';
   if(c.img){document.getElementById('img-preview').src=c.img;document.getElementById('img-preview').style.display='block';document.getElementById('img-upload-label').style.display='none';imgDataUrl=c.img;}
   else{document.getElementById('img-preview').style.display='none';document.getElementById('img-upload-label').style.display='block';imgDataUrl=null;}
   setupKbButtons();openModal('modal-card');
@@ -1237,33 +1246,43 @@ async function saveCard(){
   if(!front||!back){toast('Please fill in front and back');return;}
   var d=getDeck();
   if(editCardId){var c=d.cards.filter(function(x){return x.id===editCardId;})[0];c.front=front;c.back=back;c.hint=hint;c.img=imgDataUrl||'';}
-  else{d.cards.push({id:uid(),front:front,back:back,hint:hint,img:imgDataUrl||''});}
-  await saveToCloud();renderCardList();closeModal('modal-card');toast(editCardId?'Card updated!':'Card added!');
+  else{d.cards.push({id:uid(),front:front,back:back,hint:hint,img:imgDataUrl||'',prog:{c:0,i:0,s:0}});}
+  await saveToCloud();updateMasteryDisplay();renderCardList();closeModal('modal-card');toast(editCardId?'Card updated!':'Card added!');
 }
 async function deleteCard(cid){
   var d=getDeck();d.cards=d.cards.filter(function(c){return c.id!==cid;});
-  await saveToCloud();renderCardList();toast('Card deleted');
+  await saveToCloud();updateMasteryDisplay();renderCardList();toast('Card deleted');
 }
 
-// ─── IMAGE ───────────────────────────────────────────────────
-function handleImgUpload(e){
-  var file=e.target.files[0];if(!file)return;
-  var r=new FileReader();
-  r.onload=function(ev){imgDataUrl=ev.target.result;document.getElementById('img-preview').src=imgDataUrl;document.getElementById('img-preview').style.display='block';document.getElementById('img-upload-label').style.display='none';};
-  r.readAsDataURL(file);
-}
+// ─── IMAGE ────────────────────────────────────────────────
+function handleImgUpload(e){var file=e.target.files[0];if(!file)return;var r=new FileReader();r.onload=function(ev){imgDataUrl=ev.target.result;document.getElementById('img-preview').src=imgDataUrl;document.getElementById('img-preview').style.display='block';document.getElementById('img-upload-label').style.display='none';};r.readAsDataURL(file);}
 
-// ─── EXPORT / IMPORT ────────────────────────────────────────
-function exportDeck(){var d=getDeck();download(d.name+'.json',JSON.stringify([d],null,2));toast('Deck exported!');}
-function exportAll(){download('LinguaCards_all.json',JSON.stringify(decks,null,2));toast('All decks exported!');}
+// ─── EXPORT / IMPORT ──────────────────────────────────────
+var _exportFilename='',_exportData='';
+function openExportModal(filename,data){
+  _exportFilename=filename;_exportData=data;
+  document.getElementById('export-desc').textContent='Your export is ready. On hosted sites download starts automatically. Inside Claude.ai, use Copy to Clipboard.';
+  document.getElementById('export-textarea').value=data;
+  document.getElementById('copy-export-btn').textContent='📋 Copy to Clipboard';
+  openModal('modal-export');tryDownloadExport();
+}
+function tryDownloadExport(){try{var a=document.createElement('a');a.href='data:text/json;charset=utf-8,'+encodeURIComponent(_exportData);a.download=_exportFilename;document.body.appendChild(a);a.click();document.body.removeChild(a);}catch(e){}}
+function copyExportText(){
+  var ta=document.getElementById('export-textarea');ta.select();
+  function done(){document.getElementById('copy-export-btn').textContent='✅ Copied!';setTimeout(function(){document.getElementById('copy-export-btn').textContent='📋 Copy to Clipboard';},2000);}
+  try{document.execCommand('copy');done();}catch(e){navigator.clipboard&&navigator.clipboard.writeText(_exportData).then(done);}
+}
+function exportDeck(){var d=getDeck();openExportModal(d.name+'.json',JSON.stringify([d],null,2));}
+function exportAll(){openExportModal('LinguaCards_all.json',JSON.stringify(decks,null,2));}
 async function importDecks(e){
-  var file=e.target.files[0];if(!file)return;
-  var text=await file.text();
+  var file=e.target.files[0];if(!file)return;var text=await file.text();
   try{
     var arr=JSON.parse(text);
     (Array.isArray(arr)?arr:[arr]).forEach(function(d){
       if(!d.id||!d.name)return;
       if(!d.wordLang&&d.lang){d.wordLang='English';d.defLang=d.lang;}
+      // ensure all cards have prog
+      (d.cards||[]).forEach(function(c){if(!c.prog)c.prog={c:0,i:0,s:0};});
       var ex=decks.filter(function(x){return x.id===d.id;})[0];
       if(ex){ex.name=d.name;ex.wordLang=d.wordLang;ex.defLang=d.defLang;ex.color=d.color;ex.cards=d.cards;}else{decks.push(d);}
     });
@@ -1273,21 +1292,14 @@ async function importDecks(e){
 }
 function showImportExport(){openModal('modal-ie');}
 
-// ─── HELP ────────────────────────────────────────────────────
-function switchHelpTab(i){
-  document.querySelectorAll('.help-tab').forEach(function(b,j){b.classList.toggle('active',j===i);});
-  document.querySelectorAll('.help-panel').forEach(function(p,j){p.classList.toggle('active',j===i);});
-}
+// ─── HELP ─────────────────────────────────────────────────
+function switchHelpTab(i){document.querySelectorAll('.help-tab').forEach(function(b,j){b.classList.toggle('active',j===i);});document.querySelectorAll('.help-panel').forEach(function(p,j){p.classList.toggle('active',j===i);});}
 
-// ─── COLOR PICKER ────────────────────────────────────────────
-function buildColorPicker(){
-  document.getElementById('color-picker').innerHTML=COLORS.map(function(c,i){
-    return'<div class="color-dot'+(i===0?' selected':'')+'" style="background:'+c+'" data-color="'+c+'" onclick="selectColor('+i+')"></div>';
-  }).join('');
-}
+// ─── COLOR PICKER ─────────────────────────────────────────
+function buildColorPicker(){document.getElementById('color-picker').innerHTML=COLORS.map(function(c,i){return'<div class="color-dot'+(i===0?' selected':'')+'" style="background:'+c+'" data-color="'+c+'" onclick="selectColor('+i+')"></div>';}).join('');}
 function selectColor(idx){document.querySelectorAll('#color-picker .color-dot').forEach(function(d,i){d.classList.toggle('selected',i===idx);});}
 
-// ─── UTILS ──────────────────────────────────────────────────
+// ─── UTILS ────────────────────────────────────────────────
 function getDeck(){return decks.filter(function(d){return d.id===currentDeckId;})[0]||{cards:[],wordLang:'',defLang:''};}
 function goHome(){showPage('page-home');renderHome();}
 function goToDeck(){if(currentDeckId)openDeck(currentDeckId);}
@@ -1298,7 +1310,6 @@ function openAIDeckModal(){openModal('modal-ai');document.getElementById('ai-sta
 function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-function download(name,data){var a=document.createElement('a');a.href='data:text/json;charset=utf-8,'+encodeURIComponent(data);a.download=name;a.click();}
 var _tt;
 function toast(msg){var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(function(){el.classList.remove('show');},2500);}
 document.querySelectorAll('.modal-overlay').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o){o.classList.add('modal-hidden');if(o.id==='modal-card')closeKeyboard();}});});
