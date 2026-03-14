@@ -114,7 +114,25 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
 .lbl-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
 .lbl-row label{margin:0;font-weight:700;font-size:.85rem;color:#555}
 .kb-open-btn{background:linear-gradient(135deg,var(--c4),var(--c5));color:#fff;border:none;border-radius:50px;padding:3px 10px;font-size:.75rem;font-weight:700;cursor:pointer;display:none}
-/* KEYBOARD */
+/* HELP MODAL */
+.help-tab{padding:6px 14px;border-radius:50px;font-size:.78rem;font-weight:700;background:#f0f4ff;color:#666;border:none;cursor:pointer;white-space:nowrap;transition:all .18s}
+.help-tab.active{background:linear-gradient(135deg,var(--c4),var(--c5));color:#fff}
+.help-panel{display:none}.help-panel.active{display:block}
+.help-section{display:flex;gap:12px;align-items:flex-start;margin-bottom:4px}
+.help-icon{font-size:1.6rem;flex-shrink:0;width:36px;text-align:center}
+.help-title{font-weight:800;font-size:.95rem;margin-bottom:4px}
+.help-body{font-size:.85rem;color:#555;line-height:1.55}
+.help-steps{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.help-step{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;color:#555;line-height:1.5}
+.help-num{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--c4),var(--c5));color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.help-table{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.help-row{display:flex;align-items:center;gap:10px;font-size:.85rem;color:#555}
+.help-badge{background:#e8eeff;color:#444;border-radius:8px;padding:3px 10px;font-size:.78rem;font-weight:700;white-space:nowrap;flex-shrink:0}
+.on-badge{background:#e8f5e9;color:#2e7d32}
+.off-badge{background:#ffebee;color:#c62828}
+.manual-badge{background:#fff3e0;color:#e65c00}
+.auto-badge{background:#e8f0ff;color:#1565c0}
+.help-tip{background:#fffde7;border-left:3px solid #FFD93D;border-radius:8px;padding:10px 12px;font-size:.82rem;color:#555;margin-top:14px;line-height:1.5}
 #kb-panel{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:20px 20px 0 0;box-shadow:0 -4px 32px rgba(0,0,0,.18);z-index:400;flex-direction:column;max-height:55vh}
 #kb-tabbar{display:flex;gap:6px;padding:10px 14px 0;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 #kb-tabbar::-webkit-scrollbar{display:none}
@@ -140,6 +158,7 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
   <div class="logo">🌍 LinguaCards</div>
   <div style="display:flex;gap:8px">
     <button class="btn btn-secondary btn-sm" onclick="showImportExport()">📤 Import/Export</button>
+    <button class="btn btn-secondary btn-sm" onclick="openModal('modal-help')" title="Help">❓ Help</button>
     <button class="btn btn-primary btn-sm" onclick="openNewDeckModal()">+ New Deck</button>
   </div>
 </nav>
@@ -413,6 +432,116 @@ nav{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-co
       <input id="import-input" type="file" accept=".json" style="display:none" onchange="importDecks(event)"/>
     </div>
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('modal-ie')">Close</button></div>
+  </div>
+</div>
+
+<!-- MODAL: HELP -->
+<div id="modal-help" class="modal-overlay modal-hidden">
+  <div class="modal" style="max-width:600px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+      <h2>❓ Help &amp; Guide</h2>
+      <button onclick="closeModal('modal-help')" style="background:#f0f4ff;border:none;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer;color:#666">✕</button>
+    </div>
+
+    <!-- Tab bar -->
+    <div style="display:flex;gap:6px;margin-bottom:18px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px">
+      <button class="help-tab active" onclick="switchHelpTab(0)">🏠 Getting Started</button>
+      <button class="help-tab" onclick="switchHelpTab(1)">🃏 Studying</button>
+      <button class="help-tab" onclick="switchHelpTab(2)">➕ Creating Decks</button>
+      <button class="help-tab" onclick="switchHelpTab(3)">⌨️ Keyboard</button>
+      <button class="help-tab" onclick="switchHelpTab(4)">🔊 Audio</button>
+      <button class="help-tab" onclick="switchHelpTab(5)">📤 Import/Export</button>
+    </div>
+
+    <!-- Tab 0: Getting Started -->
+    <div class="help-panel active" id="help-tab-0">
+      <div class="help-section">
+        <div class="help-icon">🌍</div>
+        <div>
+          <div class="help-title">Welcome to LinguaCards!</div>
+          <div class="help-body">LinguaCards lets you create flashcard decks for any language pair, study with flip cards, test yourself with quizzes, and generate decks instantly with AI.</div>
+        </div>
+      </div>
+      <div class="help-steps">
+        <div class="help-step"><span class="help-num">1</span><div><strong>Create a deck</strong> — tap <em>+ New Deck</em>, enter a name, choose your Word Language (front of card) and Definition Language (back), then pick a colour.</div></div>
+        <div class="help-step"><span class="help-num">2</span><div><strong>Add cards</strong> — open your deck and tap <em>+ Add Card</em>. Fill in the front, back, an optional hint, and an optional image.</div></div>
+        <div class="help-step"><span class="help-num">3</span><div><strong>Study or Quiz</strong> — tap 📖 Study to flip through cards, or ⚡ Quiz for multiple-choice testing.</div></div>
+        <div class="help-step"><span class="help-num">4</span><div><strong>Or generate instantly</strong> — tap 🤖 AI Generate, enter a topic and language pair, and a full deck is created in seconds.</div></div>
+      </div>
+    </div>
+
+    <!-- Tab 1: Studying -->
+    <div class="help-panel" id="help-tab-1">
+      <div class="help-section">
+        <div class="help-icon">📖</div>
+        <div><div class="help-title">Study Mode</div><div class="help-body">Flip through cards one by one. Tap the card or the Flip button to reveal the answer.</div></div>
+      </div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-badge">↩ Flip</span><span>Reveal the back of the card</span></div>
+        <div class="help-row"><span class="help-badge">Next →</span><span>Skip to the next card without scoring</span></div>
+        <div class="help-row"><span class="help-badge">✓ Got It</span><span>Mark correct and move on</span></div>
+        <div class="help-row"><span class="help-badge">✗ Try Again</span><span>Mark incorrect and move on</span></div>
+        <div class="help-row"><span class="help-badge">🔊</span><span>Speak the word on that card face</span></div>
+      </div>
+      <div class="help-section" style="margin-top:14px">
+        <div class="help-icon">⚡</div>
+        <div><div class="help-title">Quiz Mode</div><div class="help-body">Four multiple-choice options are shown for each card. The correct answer is highlighted green after you pick. Your score is shown at the end.</div></div>
+      </div>
+      <div class="help-section" style="margin-top:14px">
+        <div class="help-icon">📋</div>
+        <div><div class="help-title">Card Order</div><div class="help-body">In the deck view, choose how cards are ordered before studying: <strong>Original</strong> (insertion order), <strong>A–Z</strong> (alphabetical by front), or <strong>Shuffle</strong> (random each session).</div></div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Creating Decks -->
+    <div class="help-panel" id="help-tab-2">
+      <div class="help-section"><div class="help-icon">✏️</div><div><div class="help-title">Manual Deck</div><div class="help-body">Tap <em>+ New Deck</em>, set a name, word language (front) and definition language (back). Then add cards one by one with <em>+ Add Card</em>. Each card supports a front, back, optional hint, and optional photo.</div></div></div>
+      <div class="help-section" style="margin-top:14px"><div class="help-icon">🤖</div><div><div class="help-title">AI Generate</div><div class="help-body">Tap <em>🤖 AI Generate</em> and enter a topic (e.g. "Food &amp; Drinks"), a word language, and a definition language. Claude generates a ready-to-study deck instantly. Requires an Anthropic API key when running outside Claude.ai.</div></div></div>
+      <div class="help-section" style="margin-top:14px"><div class="help-icon">📄</div><div><div class="help-title">Import from CSV</div><div class="help-body">Tap <em>📄 From CSV</em> and upload a .csv file. Map the columns to Front, Back, and Hint, set the deck name and languages, then tap Create Deck. Rows with empty front or back are skipped automatically.</div></div></div>
+      <div class="help-tip">💡 <strong>CSV tip:</strong> Name your columns <code>front</code>, <code>back</code>, and <code>hint</code> and they will be auto-detected.</div>
+    </div>
+
+    <!-- Tab 3: Keyboard -->
+    <div class="help-panel" id="help-tab-3">
+      <div class="help-section"><div class="help-icon">⌨️</div><div><div class="help-title">Phonetic Keyboard</div><div class="help-body">When adding or editing a card, an <em>⌨️ Keyboard</em> button appears next to any field whose language uses a non-Latin script. Tap it to open the on-screen keyboard.</div></div></div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-badge">🇯🇵 Japanese</span><span>Hiragana, Katakana, and a Rōmaji → かな converter</span></div>
+        <div class="help-row"><span class="help-badge">🇰🇷 Korean</span><span>Hangul with live syllable composition (ㄱ+ㅏ → 가)</span></div>
+        <div class="help-row"><span class="help-badge">🇸🇦 Arabic</span><span>Full alphabet + diacritics, right-to-left layout</span></div>
+        <div class="help-row"><span class="help-badge">🇷🇺 Russian</span><span>Cyrillic upper and lower case</span></div>
+        <div class="help-row"><span class="help-badge">🇬🇷 Greek</span><span>Greek alphabet with accented vowels</span></div>
+        <div class="help-row"><span class="help-badge">🇮🇳 Hindi</span><span>Devanagari consonants, vowels, and matras</span></div>
+        <div class="help-row"><span class="help-badge">🇹🇭 Thai</span><span>Thai consonants, vowels, and tone marks</span></div>
+        <div class="help-row"><span class="help-badge">🇮🇱 Hebrew</span><span>Hebrew letters + vowel points, right-to-left</span></div>
+        <div class="help-row"><span class="help-badge">🇨🇳 Chinese</span><span>Pinyin tone marks (ā á ǎ à)</span></div>
+        <div class="help-row"><span class="help-badge">🇺🇦 Ukrainian</span><span>Ukrainian Cyrillic alphabet</span></div>
+      </div>
+      <div class="help-tip">💡 Every key shows the native character (large) and its Latin phonetic hint (small), so you can find characters by sound.</div>
+    </div>
+
+    <!-- Tab 4: Audio -->
+    <div class="help-panel" id="help-tab-4">
+      <div class="help-section"><div class="help-icon">🔊</div><div><div class="help-title">Text-to-Speech</div><div class="help-body">LinguaCards uses your device's built-in speech engine to speak cards. Each side is spoken in its own native language accent — English in an English voice, Japanese in a Japanese voice, and so on.</div></div></div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-badge on-badge">🔊 On</span><span>Master switch — enables all audio</span></div>
+        <div class="help-row"><span class="help-badge off-badge">🔇 Off</span><span>Disables all audio including manual taps</span></div>
+        <div class="help-row"><span class="help-badge manual-badge">▶ Manual</span><span>Audio only when you tap the 🔊 button on a card</span></div>
+        <div class="help-row"><span class="help-badge auto-badge">⚡ Auto</span><span>Audio plays automatically on each card and flip</span></div>
+      </div>
+      <div class="help-tip">💡 Voice quality depends on which language packs are installed on your device. On iPhone and iPad, installing a language in Settings → General → Language &amp; Region gives the best results.</div>
+    </div>
+
+    <!-- Tab 5: Import / Export -->
+    <div class="help-panel" id="help-tab-5">
+      <div class="help-section"><div class="help-icon">⬇️</div><div><div class="help-title">Export</div><div class="help-body">Tap <em>📤 Export</em> inside a deck to save that deck as a JSON file, or use <em>Import/Export</em> in the top bar to export all decks at once.</div></div></div>
+      <div class="help-section" style="margin-top:14px"><div class="help-icon">⬆️</div><div><div class="help-title">Import</div><div class="help-body">Use <em>Import/Export → Import Decks from File</em> to load a previously exported JSON file. If a deck with the same ID already exists it will be updated; otherwise it is added as a new deck.</div></div></div>
+      <div class="help-section" style="margin-top:14px"><div class="help-icon">☁️</div><div><div class="help-title">Cloud Save</div><div class="help-body">All decks are automatically saved to cloud storage when you make changes. Your data persists across sessions without any extra steps.</div></div></div>
+      <div class="help-tip">💡 Images on cards are stored as base64 inside the JSON, so exported files with many photos can be large.</div>
+    </div>
+
+    <div class="modal-footer" style="margin-top:8px">
+      <button class="btn btn-primary" onclick="closeModal('modal-help')">Got it ✓</button>
+    </div>
   </div>
 </div>
 
@@ -1080,6 +1209,11 @@ function buildColorPicker(){
   }).join('');
 }
 function selectColor(idx){document.querySelectorAll('#color-picker .color-dot').forEach(function(d,i){d.classList.toggle('selected',i===idx);});}
+
+function switchHelpTab(i){
+  document.querySelectorAll('.help-tab').forEach(function(b,j){b.classList.toggle('active',j===i);});
+  document.querySelectorAll('.help-panel').forEach(function(p,j){p.classList.toggle('active',j===i);});
+}
 
 // ─── UTILS ─────────────────────────────────────────────────────
 function getDeck(){return decks.find(function(d){return d.id===currentDeckId;})||{cards:[],wordLang:'',defLang:''};}
